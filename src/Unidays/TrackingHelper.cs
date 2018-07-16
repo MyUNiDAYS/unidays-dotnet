@@ -76,7 +76,7 @@ namespace Unidays
         {
             var builder = new StringBuilder();
 
-            GenerateQuery(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+	        new UriBuilder().GenerateQueryString(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
                 shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
             SignUrl(builder, "Signature", this.key);
 
@@ -105,8 +105,7 @@ namespace Unidays
         public string ClientSideTrackingPixelUrl(string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
         {
             var builder = new StringBuilder();
-
-            GenerateQuery(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+	        new UriBuilder().GenerateQueryString(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
                 shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
             SignUrl(builder, "Signature", this.key);
 
@@ -133,57 +132,6 @@ namespace Unidays
                     .Append('=')
                     .Append(HttpUtility.UrlEncode(signature));
             }
-        }
-
-        static void GenerateQuery(StringBuilder builder, string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
-        {
-            builder
-                .Append("?CustomerId=")
-                .Append(HttpUtility.UrlEncode(customerId))
-                .Append("&TransactionId=")
-                .Append(HttpUtility.UrlEncode(transactionId))
-                .Append("&MemberId=")
-                .Append(HttpUtility.UrlEncode(memberId))
-                .Append("&Currency=")
-                .Append(HttpUtility.UrlEncode(currency))
-                .Append("&OrderTotal=");
-
-            if (orderTotal.HasValue)
-                builder.AppendFormat("{0:0.00}", orderTotal.Value);
-
-            builder.Append("&ItemsUNiDAYSDiscount=");
-            if (itemsUNiDAYSDiscount.HasValue)
-                builder.AppendFormat("{0:0.00}", itemsUNiDAYSDiscount.Value);
-
-            builder.Append("&Code=").Append(HttpUtility.UrlEncode(code));
-
-            builder.Append("&ItemsTax=");
-            if (itemsTax.HasValue)
-                builder.AppendFormat("{0:0.00}", itemsTax.Value);
-
-            builder.Append("&ShippingGross=");
-            if (shippingGross.HasValue)
-                builder.AppendFormat("{0:0.00}", shippingGross.Value);
-
-            builder.Append("&ShippingDiscount=");
-            if (shippingDiscount.HasValue)
-                builder.AppendFormat("{0:0.00}", shippingDiscount.Value);
-
-            builder.Append("&ItemsGross=");
-            if (itemsGross.HasValue)
-                builder.AppendFormat("{0:0.00}", itemsGross.Value);
-
-            builder.Append("&ItemsOtherDiscount=");
-            if (itemsOtherDiscount.HasValue)
-                builder.AppendFormat("{0:0.00}", itemsOtherDiscount.Value);
-
-            builder.Append("&UNiDAYSDiscountPercentage=");
-            if (UNiDAYSDiscountPercentage.HasValue)
-                builder.AppendFormat("{0:0.00}", UNiDAYSDiscountPercentage.Value);
-
-            builder.Append("&NewCustomer=");
-            if (newCustomer.HasValue)
-                builder.AppendFormat("{0}", newCustomer);
         }
     }
 }
