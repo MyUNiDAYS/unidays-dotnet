@@ -1,12 +1,10 @@
-﻿namespace Unidays
-{
-    using System;
-    using System.Security.Cryptography;
-    using System.Text;
-    using System.Web;
+﻿using System;
+using System.Text;
 
+namespace Unidays
+{
     /// <summary>
-    /// UNiDAYS SDK Helper Class
+    /// UNiDAYS DotNet Library for the Tracking API
     /// </summary>
     public sealed class TrackingHelper
     {
@@ -49,15 +47,16 @@
         /// <returns>The URL to make a server-to-server request to.</returns>
         public string ServerToServerTrackingUrl(string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
         {
-            var builder = new StringBuilder();
+	        var queryString = new StringBuilder();
+	        var uri = new UriHelper();
 
-	        new UriBuilder().GenerateQueryString(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+	        uri.GenerateQueryString(queryString, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
                 shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
-            SignUrl(builder, "Signature", this.key);
+	        uri.SignUrl(queryString, this.key);
 
-            builder.Insert(0, trackingUrl);
+	        queryString.Insert(0, trackingUrl);
 
-            return builder.ToString();
+            return queryString.ToString();
         }
 
         /// <summary>
@@ -79,34 +78,17 @@
         /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
         public string ClientSideTrackingPixelUrl(string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
         {
-            var builder = new StringBuilder();
-	        new UriBuilder().GenerateQueryString(builder, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+            var queryString = new StringBuilder();
+	        var uri = new UriHelper();
+
+			uri.GenerateQueryString(queryString, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
                 shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
-            SignUrl(builder, "Signature", this.key);
+            uri.SignUrl(queryString, this.key);
 
-            builder.Insert(0, trackingUrl);
-            builder.Insert(trackingUrl.Length, ".gif");
+	        queryString.Insert(0, trackingUrl);
+	        queryString.Insert(trackingUrl.Length, ".gif");
 
-            return builder.ToString();
-        }
-
-        static void SignUrl(StringBuilder builder, string param, byte[] key)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                hmac.Key = key;
-                
-                hmac.Initialize();
-                var buffer = Encoding.ASCII.GetBytes(builder.ToString());
-                var signatureBytes = hmac.ComputeHash(buffer);
-                var signature = Convert.ToBase64String(signatureBytes);
-
-                builder
-                    .Append('&')
-                    .Append(param)
-                    .Append('=')
-                    .Append(HttpUtility.UrlEncode(signature));
-            }
+            return queryString.ToString();
         }
     }
 }

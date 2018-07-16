@@ -6,14 +6,14 @@ using FluentAssertions;
 
 namespace Unidays.Tests.UriBuilderTests
 {
-    public class WhenGeneratingAUrlWithAllTheParameters
+    public class WhenGeneratingAUrlWithAllTheParametersExceptTheSignature
 	{
 	    private StringBuilder _url;
 
-	    public WhenGeneratingAUrlWithAllTheParameters()
+	    public WhenGeneratingAUrlWithAllTheParametersExceptTheSignature()
 	    {
 		   _url = new StringBuilder();
-		    new UriBuilder().GenerateQueryString(_url, "id of customer", "the transaction id", "id of member", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1);
+		    new UriHelper().GenerateQueryString(_url, "id of customer", "the transaction id", "id of member", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1);
 	    }
 
 		[Theory]

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Unidays
 {
-	public class UriBuilder
+	public class UriHelper
     {
 	    public void GenerateQueryString(StringBuilder builder, string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
 	    {
@@ -58,7 +58,7 @@ namespace Unidays
 			    builder.AppendFormat("{0}", newCustomer);
 	    }
 
-		static void SignUrl(StringBuilder builder, string param, byte[] key)
+		public void SignUrl(StringBuilder builder, byte[] key)
 		{
 			using (var hmac = new HMACSHA512())
 			{
@@ -71,7 +71,7 @@ namespace Unidays
 
 				builder
 					.Append('&')
-					.Append(param)
+					.Append("Signature")
 					.Append('=')
 					.Append(HttpUtility.UrlEncode(signature));
 			}
