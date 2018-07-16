@@ -5,15 +5,16 @@ Include build tool badge.
 
 This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementation, examples for server - server and client - server integrations.
 
-
 ## Parameters
 
 Here is a description of all the available parameters. Which of these you provide to us are dependant on the agreed contract.
 
 Mandatory parameters are:
-- Currency
-- Transaction ID
-- Customer ID
+
+* `CustomerId`
+* `TransactionId`
+* `Currency`
+* `Code` or `MemberId`
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
@@ -30,7 +31,6 @@ Mandatory parameters are:
 | ItemsOtherDiscount | Total monetary amount of all non UNiDAYS discounts applied to `ItemsGross`, formatted to 2 decimal places | Decimal | 10.00 |
 | UNiDAYSDiscountPercentage | The UNiDAYS discount applied, as a percentage, formatted to 2 decimal places | Decimal | 10.00 |
 | NewCustomer | Is the user a new (vs returning) customer to you? | Boolean | true or false |
-
 
 ### Example Basket
 
@@ -66,7 +66,7 @@ class Program
 
         // Create a reference to the UNiDAYS object
         var unidays = new TrackingHelper(customerId, signingKey);
-       
+
         var trackingUrl = ServerToServer(unidays);
 
         // If you're making a server-to-server request, you will need to call the generated URL, here is an example of how you could do this.
@@ -98,10 +98,7 @@ class Program
 }
 ```
 
-
-### Client To Server 
-
-
+### Client To Server
 
 ```csharp
 class Program
@@ -126,7 +123,7 @@ class Program
     {
         var code = "UNiDAYSCode"; // for a coded request. If codeless pass String.Empty.
         var memberId = "someMemberId"; // for a codeless request. If codeed pass String.Empty.
-        
+
         var transactionId = "order123";
         var currency = "GBP";
         var orderTotal = 209.00M;
@@ -146,10 +143,7 @@ class Program
 }
 ```
 
-
-
 ### VerifyStudentUrl
-
 
 ```csharp
 class Program
