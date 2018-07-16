@@ -7,7 +7,31 @@ namespace Unidays
 {
 	public class UriHelper
     {
-	    public void GenerateQueryString(StringBuilder builder, string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
+
+	    public StringBuilder GenerateUnsignedUrl(string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
+	    {
+		    var queryString = new StringBuilder();
+		    var uri = new UriHelper();
+
+			uri.GenerateQueryString(queryString, customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+			    shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
+
+		    return queryString;
+		}
+
+	    public StringBuilder GenerateSignedUrl(byte[] key, string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
+	    {
+		    var queryString = new StringBuilder();
+		    var uri = new UriHelper();
+
+		    uri.GenerateQueryString(queryString, customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
+			    shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
+		    uri.SignUrl(queryString, key);
+
+		    return queryString;
+	    }
+
+		void GenerateQueryString(StringBuilder builder, string customerId, string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
 	    {
 		    builder
 			    .Append("?CustomerId=")
@@ -58,7 +82,7 @@ namespace Unidays
 			    builder.AppendFormat("{0}", newCustomer);
 	    }
 
-		public void SignUrl(StringBuilder builder, byte[] key)
+		void SignUrl(StringBuilder builder, byte[] key)
 		{
 			using (var hmac = new HMACSHA512())
 			{

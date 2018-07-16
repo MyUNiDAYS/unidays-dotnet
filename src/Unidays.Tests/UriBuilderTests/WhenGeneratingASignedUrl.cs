@@ -8,15 +8,11 @@ namespace Unidays.Tests.UriBuilderTests
 {
     public class WhenGeneratingASignedUrl
 	{
-	    private UriHelper _urlHelper;
 	    private StringBuilder _url;
 
 	    public WhenGeneratingASignedUrl()
 	    {
-		    _url = new StringBuilder();
-			_urlHelper = new UriHelper();
-		    _urlHelper.GenerateQueryString(_url, "id of customer", "the transaction id", "id of member", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1);
-		    _urlHelper.SignUrl(_url, new byte[4]);
+		    _url = new UriHelper().GenerateSignedUrl(new byte[4], "id of customer", "the transaction id", "id of member", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1);
 	    }
 
 	    [Theory]
