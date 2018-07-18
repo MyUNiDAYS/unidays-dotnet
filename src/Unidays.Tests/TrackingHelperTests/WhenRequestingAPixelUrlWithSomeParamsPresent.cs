@@ -7,11 +7,11 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenGeneratingAPixelUrlWithSomeParamsPresent 
+        public class WhenRequestingAPixelUrlWithSomeParamsPresent 
         {
             private readonly Uri url;
 
-            public WhenGeneratingAPixelUrlWithSomeParamsPresent()
+            public WhenRequestingAPixelUrlWithSomeParamsPresent()
             {
 				var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer", "GBP", "the transaction").Build();
 	            url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
