@@ -41,7 +41,7 @@ namespace Unidays.Tests.UriBuilderTests
 	    [InlineData("ItemsOtherDiscount", "10.00")]
 	    [InlineData("UNiDAYSDiscountPercentage", "10.00")]
 	    [InlineData("NewCustomer", "True")]
-	    [InlineData("Signature", "cIF/W/OobmMWs5RWECCH0+V1qhzeh8e2NwIPswwSpvM9EokL+IYnOj34GBa4Pb66VkpXG3KLGUcn6touUF0LEQ==")]
+	    [InlineData("Signature", "oJgMfHKzPrtvlxHwDQndhaCyd6vNYzUfisoMY0PTQcfW+kDweXMPo0Gi3AaOVQpKRMDZkND5TGH/0kGiFpqPDw==")]
 	    public void TheParameterShouldBeCorrect(string parameter, string result)
 	    {
 		    var parameters = HttpUtility.ParseQueryString(_url.Query);

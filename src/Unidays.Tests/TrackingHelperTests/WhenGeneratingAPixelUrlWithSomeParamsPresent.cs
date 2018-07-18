@@ -7,14 +7,14 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenGeneratingAPixelUrlWithSomeParamsPresent : IClassFixture<TrackingHelperFixture>
+        public class WhenGeneratingAPixelUrlWithSomeParamsPresent 
         {
             private readonly Uri url;
 
-            public WhenGeneratingAPixelUrlWithSomeParamsPresent(TrackingHelperFixture fixture)
+            public WhenGeneratingAPixelUrlWithSomeParamsPresent()
             {
 				var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer", "GBP", "the transaction").Build();
-	            url = fixture.TrackingHelper.ClientSideTrackingPixelUrl(directTrackingDetails);
+	            url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
 			}
 
              [Fact]
@@ -39,18 +39,6 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("CustomerId", "a customer")]
             [InlineData("TransactionId", "the transaction")]
             [InlineData("Currency", "GBP")]
-			[InlineData("MemberId", "")]
-            [InlineData("OrderTotal", "")]
-            [InlineData("ItemsUNiDAYSDiscount", "")]
-            [InlineData("Code", "")]
-            [InlineData("ItemsTax", "")]
-            [InlineData("ShippingGross", "")]
-            [InlineData("ShippingDiscount", "")]
-            [InlineData("ItemsGross", "")]
-            [InlineData("ItemsOtherDiscount", "")]
-            [InlineData("UNiDAYSDiscountPercentage", "")]
-            [InlineData("NewCustomer", "")]
-            [InlineData("Signature", null)]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

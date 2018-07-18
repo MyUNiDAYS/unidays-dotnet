@@ -1,11 +1,10 @@
 using System;
 using Xunit;
 using FluentAssertions;
-using System.Security.Cryptography;
 
 namespace Unidays.Tests.TrackingHelperTests
 {
-    public partial class GivenATrackingHelper
+	public partial class GivenATrackingHelper
     {
         public class WhenConstructingWithAnInvalidCustomerId
         {
@@ -14,11 +13,11 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData(null)]
             public void ThenAnArgumentExceptionIsThrown(string customerId)
             {
-                Action ctor = () => new Unidays.TrackingHelper(customerId, null);
+                Action ctor = () => new TrackingHelper(new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction id").Build());
 
                 ctor.Should().Throw<ArgumentException>()
                     .Which.Message.Should().Be("CustomerId is required\r\nParameter name: customerId");
             }
         }
-    }
+	}
 }

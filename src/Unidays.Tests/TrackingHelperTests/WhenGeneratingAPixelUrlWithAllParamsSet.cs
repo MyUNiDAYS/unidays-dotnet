@@ -7,11 +7,11 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenGeneratingAPixelUrlWithAllParamsSet : IClassFixture<TrackingHelperFixture>
+        public class WhenGeneratingAPixelUrlWithAllParamsSet
         {
             private readonly Uri url;
 
-            public WhenGeneratingAPixelUrlWithAllParamsSet(TrackingHelperFixture fixture)
+            public WhenGeneratingAPixelUrlWithAllParamsSet()
             {
 	            var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction")
 	                                        .SetOrderTotal(209.00m)
@@ -25,7 +25,8 @@ namespace Unidays.Tests.TrackingHelperTests
 	                                        .SetUNiDAYSDiscountPercentage(10.00m)
 	                                        .SetNewCustomer(true)
 	                                        .Build();
-	            url = fixture.TrackingHelper.ClientSideTrackingPixelUrl(directTrackingDetails);
+
+	            url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
             }
 
             [Fact]
