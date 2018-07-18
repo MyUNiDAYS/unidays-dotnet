@@ -22,7 +22,7 @@ namespace Unidays
 
 	    public async Task<HttpStatusCode> PostAsync(DirectTrackingDetails directTrackingDetails)
 	    {
-			var uri = new UriGenerator().GenerateSignedUrl(_key, directTrackingDetails);
+			var uri = new UriGenerator().GenerateServerRequestUrl(_key, directTrackingDetails);
 
 		    var response = await _httpClient.PostAsync(uri, null, CancellationToken.None);
 			

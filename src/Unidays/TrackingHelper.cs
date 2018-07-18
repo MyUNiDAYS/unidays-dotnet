@@ -8,7 +8,6 @@ namespace Unidays
     public sealed class TrackingHelper
     {
 	    private DirectTrackingDetails _directTrackingDetails;
-	    const string trackingUrl = "https://tracking.myunidays.com/perks/redemption/v1.1";
 
 		public TrackingHelper(DirectTrackingDetails directTrackingDetails)
         {
@@ -29,7 +28,7 @@ namespace Unidays
 		/// <returns>The URL to make a server-to-server request to.</returns>
 		public Uri DirectTrackingUrl(byte[] key)
         {
-			return new UriGenerator().GenerateSignedUrl(key, _directTrackingDetails);
+			return new UriGenerator().GenerateServerRequestUrl(key, _directTrackingDetails);
         }
 
         /// <summary>
@@ -40,5 +39,14 @@ namespace Unidays
         {
 	        return new UriGenerator().GeneratePixelUrl(_directTrackingDetails);
         }
-    }
+
+	    /// <summary>
+	    /// Generates the Redemption Tracking URL
+	    /// </summary>
+	    /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
+	    public Uri TrackingPixelUrl(byte[] key)
+	    {
+		    return new UriGenerator().GeneratePixelUrl(key, _directTrackingDetails);
+	    }
+	}
 }

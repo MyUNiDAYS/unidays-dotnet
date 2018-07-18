@@ -20,17 +20,19 @@ namespace Unidays
 			return new Uri(queryString.ToString());
 	    }
 
-		public StringBuilder GenerateUnsignedUrl(DirectTrackingDetails directTrackingDetails)
+	    public Uri GeneratePixelUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
 	    {
-		    var queryString = new StringBuilder();
 		    var uri = new UriGenerator();
 
-			uri.GenerateQueryString(directTrackingDetails);
+		    var queryString = uri.GenerateQueryString(directTrackingDetails);
+		    uri.SignUrl(queryString, key);
+			queryString.Insert(0, trackingUrl);
+		    queryString.Insert(trackingUrl.Length, ".gif");
 
-		    return queryString;
-		}
+		    return new Uri(queryString.ToString());
+	    }
 
-	    public Uri GenerateSignedUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
+		public Uri GenerateServerRequestUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
 	    {
 		    var uri = new UriGenerator();
 

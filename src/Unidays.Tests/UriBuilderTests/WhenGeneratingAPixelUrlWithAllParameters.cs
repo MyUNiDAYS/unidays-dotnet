@@ -5,11 +5,11 @@ using Xunit;
 
 namespace Unidays.Tests.UriBuilderTests
 {
-	public class WhenGeneratingASignedUrl
+	public class WhenGeneratingAPixelUrlWithAllParameters
 	{
 	    private Uri _url;
 
-	    public WhenGeneratingASignedUrl()
+	    public WhenGeneratingAPixelUrlWithAllParameters()
 	    {
 		    var directTrackingDetails = new DirectTrackingDetailsBuilder("id of customer", "GBP", "the transaction id")
 		                                .SetOrderTotal(209.00m)
@@ -24,7 +24,7 @@ namespace Unidays.Tests.UriBuilderTests
 		                                .SetNewCustomer(true)
 		                                .Build();
 
-			_url = new UriGenerator().GenerateSignedUrl(new byte[4], directTrackingDetails);
+			_url = new UriGenerator().GeneratePixelUrl(directTrackingDetails);
 	    }
 
 	    [Theory]
@@ -41,7 +41,6 @@ namespace Unidays.Tests.UriBuilderTests
 	    [InlineData("ItemsOtherDiscount", "10.00")]
 	    [InlineData("UNiDAYSDiscountPercentage", "10.00")]
 	    [InlineData("NewCustomer", "True")]
-	    [InlineData("Signature", "oJgMfHKzPrtvlxHwDQndhaCyd6vNYzUfisoMY0PTQcfW+kDweXMPo0Gi3AaOVQpKRMDZkND5TGH/0kGiFpqPDw==")]
 	    public void TheParameterShouldBeCorrect(string parameter, string result)
 	    {
 		    var parameters = HttpUtility.ParseQueryString(_url.Query);
