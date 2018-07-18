@@ -44,14 +44,9 @@ namespace Unidays
         /// <param name="UNiDAYSDiscountPercentage"></param>
         /// <param name="newCustomer">1 if the member is a new customer, 0 if not</param>
         /// <returns>The URL to make a server-to-server request to.</returns>
-        public string ServerToServerTrackingUrl(string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
+        public Uri SignedDirectTrackingUrl(DirectTrackingDetails directTrackingDetails)
         {
-	        var queryString = new UriHelper().GenerateSignedUrl(this.key, this.customerId, transactionId, memberId, currency, orderTotal,
-		        itemsUNiDAYSDiscount, code, itemsTax,shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
-
-	        queryString.Insert(0, trackingUrl);
-
-            return queryString.ToString();
+			return new UriGenerator().GenerateSignedUrl(this.key, directTrackingDetails);
         }
 
         /// <summary>
@@ -71,15 +66,9 @@ namespace Unidays
         /// <param name="UNiDAYSDiscountPercentage"></param>
         /// <param name="newCustomer">1 if the member is a new customer, 0 if not</param>
         /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
-        public string ClientSideTrackingPixelUrl(string transactionId, string memberId, string currency, decimal? orderTotal, decimal? itemsUNiDAYSDiscount, string code, decimal? itemsTax, decimal? shippingGross, decimal? shippingDiscount, decimal? itemsGross, decimal? itemsOtherDiscount, decimal? UNiDAYSDiscountPercentage, int? newCustomer)
+        public Uri ClientSideTrackingPixelUrl(DirectTrackingDetails directTrackingDetails)
         {
-	        var queryString = new UriHelper().GenerateSignedUrl(key, this.customerId, transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount, code, itemsTax,
-                shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage, newCustomer);
-
-	        queryString.Insert(0, trackingUrl);
-	        queryString.Insert(trackingUrl.Length, ".gif");
-
-            return queryString.ToString();
+	        return new UriGenerator().GeneratePixelUrl(directTrackingDetails);
         }
     }
 }

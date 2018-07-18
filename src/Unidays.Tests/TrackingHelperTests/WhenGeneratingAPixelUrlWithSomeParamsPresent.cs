@@ -13,8 +13,9 @@ namespace Unidays.Tests.TrackingHelperTests
 
             public WhenGeneratingAPixelUrlWithSomeParamsPresent(TrackingHelperFixture fixture)
             {
-                url = new Uri(fixture.TrackingHelper.ClientSideTrackingPixelUrl("the transaction", null, null, null, null, null, null, null, null, null, null, null, null));
-            }
+				var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer", "GBP", "the transaction").Build();
+	            url = fixture.TrackingHelper.ClientSideTrackingPixelUrl(directTrackingDetails);
+			}
 
              [Fact]
             public void TheSchemeShouldBeHttps()
@@ -31,14 +32,14 @@ namespace Unidays.Tests.TrackingHelperTests
             [Fact]
             public void ThePathShouldBePerksRedemptionV1()
             {
-                this.url.PathAndQuery.Should().StartWith("/perks/redemption/v1.1.gif");
+                this.url.PathAndQuery.Should().StartWith("/perks/redemption/v1.2.gif");
             }
 
             [Theory]
             [InlineData("CustomerId", "a customer")]
             [InlineData("TransactionId", "the transaction")]
-            [InlineData("MemberId", "")]
-            [InlineData("Currency", "")]
+            [InlineData("Currency", "GBP")]
+			[InlineData("MemberId", "")]
             [InlineData("OrderTotal", "")]
             [InlineData("ItemsUNiDAYSDiscount", "")]
             [InlineData("Code", "")]
@@ -49,7 +50,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "")]
             [InlineData("UNiDAYSDiscountPercentage", "")]
             [InlineData("NewCustomer", "")]
-            [InlineData("Signature", "pYjMT2MKNrp25IW/aaw51Quq7nPgGJMqs/v75fOF5OGYdOIWw0rZQbQBO3+Bg/knrlyYhUrzBEUs0+020Uhh4A==")]
+            [InlineData("Signature", null)]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

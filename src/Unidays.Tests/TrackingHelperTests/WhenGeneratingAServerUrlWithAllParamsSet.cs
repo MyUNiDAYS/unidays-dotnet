@@ -7,13 +7,26 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenGeneratingAServerUrlWithAllParamsPresent : IClassFixture<TrackingHelperFixture>
+        public class WhenGeneratingAServerUrlWithAllParamsSet : IClassFixture<TrackingHelperFixture>
         {
             private readonly Uri url;
 
-            public WhenGeneratingAServerUrlWithAllParamsPresent(TrackingHelperFixture fixture)
+	        public WhenGeneratingAServerUrlWithAllParamsSet(TrackingHelperFixture fixture)
             {
-                url = new Uri(fixture.TrackingHelper.ServerToServerTrackingUrl("the transaction", "id of student", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1));
+	            var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction id")
+	                                        .SetOrderTotal(209.00m)
+	                                        .SetItemsUNiDAYSDiscount(13.00m)
+	                                        .SetCode("a code")
+	                                        .SetItemsTax(34.50m)
+	                                        .SetShippingGross(5.00m)
+	                                        .SetShippingDiscount(3.00m)
+	                                        .SetItemsGross(230.00m)
+	                                        .SetItemsOtherDiscount(10.00m)
+	                                        .SetUNiDAYSDiscountPercentage(10.00m)
+	                                        .SetNewCustomer(true)
+	                                        .Build();
+
+				url = fixture.TrackingHelper.SignedDirectTrackingUrl(directTrackingDetails);
             }
 
             [Fact]
@@ -31,13 +44,12 @@ namespace Unidays.Tests.TrackingHelperTests
             [Fact]
             public void ThePathShouldBePerksRedemptionV1()
             {
-                this.url.PathAndQuery.Should().StartWith("/perks/redemption/v1.1");
+                this.url.PathAndQuery.Should().StartWith("/perks/redemption/v1.2");
             }
 
             [Theory]
-            [InlineData("CustomerId", "a customer")]
-            [InlineData("TransactionId", "the transaction")]
-            [InlineData("MemberId", "id of student")]
+            [InlineData("CustomerId", "a customer Id")]
+            [InlineData("TransactionId", "the transaction id")]
             [InlineData("Currency", "GBP")]
             [InlineData("OrderTotal", "209.00")]
             [InlineData("ItemsUNiDAYSDiscount", "13.00")]
@@ -48,8 +60,8 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("ItemsGross", "230.00")]
             [InlineData("ItemsOtherDiscount", "10.00")]
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
-            [InlineData("NewCustomer", "1")]
-            [InlineData("Signature", "nB3GKjq9wKf+qbQywULuVEunrGEH2nd+qRKjDoT35nsgy0yDoNvYEPZEdD4VkglhxgB8oMYZEKW9CkMFvgV/+A==")]
+            [InlineData("NewCustomer", "True")]
+            [InlineData("Signature", "MQxbUcwwOHLLBlDg8qwyRZl/2VCZ+U5+rdOHBnJsb+O4COPQZ/mxL2HGa1RjOhD2k81MUe0Co7Rmm3ZD27YGRA==")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

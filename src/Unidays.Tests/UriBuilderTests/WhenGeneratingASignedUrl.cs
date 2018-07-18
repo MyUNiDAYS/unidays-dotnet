@@ -1,24 +1,35 @@
 ﻿using System;
-using System.Text;
 using System.Web;
 using FluentAssertions;
 using Xunit;
 
 namespace Unidays.Tests.UriBuilderTests
 {
-    public class WhenGeneratingASignedUrl
+	public class WhenGeneratingASignedUrl
 	{
-	    private StringBuilder _url;
+	    private Uri _url;
 
 	    public WhenGeneratingASignedUrl()
 	    {
-		    _url = new UriHelper().GenerateSignedUrl(new byte[4], "id of customer", "the transaction id", "id of member", "GBP", 209.00M, 13.00M, "a code", 34.50M, 5.00M, 3.00M, 230.00M, 10.00M, 10.00M, 1);
+		    var directTrackingDetails = new DirectTrackingDetailsBuilder("id of customer", "GBP", "the transaction id")
+		                                .SetOrderTotal(209.00m)
+		                                .SetItemsUNiDAYSDiscount(13.00m)
+		                                .SetCode("a code")
+		                                .SetItemsTax(34.50m)
+		                                .SetShippingGross(5.00m)
+		                                .SetShippingDiscount(3.00m)
+		                                .SetItemsGross(230.00m)
+		                                .SetItemsOtherDiscount(10.00m)
+		                                .SetUNiDAYSDiscountPercentage(10.00m)
+		                                .SetNewCustomer(true)
+		                                .Build();
+
+			_url = new UriGenerator().GenerateSignedUrl(new byte[4], directTrackingDetails);
 	    }
 
 	    [Theory]
 	    [InlineData("CustomerId", "id of customer")]
 	    [InlineData("TransactionId", "the transaction id")]
-	    [InlineData("MemberId", "id of member")]
 	    [InlineData("Currency", "GBP")]
 	    [InlineData("OrderTotal", "209.00")]
 	    [InlineData("ItemsUNiDAYSDiscount", "13.00")]
@@ -29,12 +40,11 @@ namespace Unidays.Tests.UriBuilderTests
 	    [InlineData("ItemsGross", "230.00")]
 	    [InlineData("ItemsOtherDiscount", "10.00")]
 	    [InlineData("UNiDAYSDiscountPercentage", "10.00")]
-	    [InlineData("NewCustomer", "1")]
-	    [InlineData("Signature", "lyzJgoAO47NI/uWJMY4FomcQ70yehFCKxol2M242WOeLHeuCr+/3fTDaRCg9oL0ZjVgXy35IIvMs/Yx1F5YO9g==")]
+	    [InlineData("NewCustomer", "True")]
+	    [InlineData("Signature", "06vfpvmJQoJB1+W7b5WnrFgxWrzItgst4v+Igm+umVwoMZ2aaMIzAGjX+pCVs/6NPsXZxhPMprJV8Q1SmALimg==")]
 	    public void TheParameterShouldBeCorrect(string parameter, string result)
 	    {
-		    var exampleUri = new Uri(_url.Insert(0, "http://www.example.com").ToString());
-		    var parameters = HttpUtility.ParseQueryString(exampleUri.Query);
+		    var parameters = HttpUtility.ParseQueryString(_url.Query);
 		    parameters[parameter].Should().Be(result);
 	    }
 	}
