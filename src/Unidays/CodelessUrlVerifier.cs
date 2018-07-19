@@ -1,16 +1,16 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+
 namespace Unidays
 {
-	using System;
-	using System.Security.Cryptography;
-	using System.Text;
-	using System.Web;
-
 	/// <summary>
 	/// UNiDAYS SDK - Codeless API Helper Class
 	/// </summary>
 	public sealed class CodelessUrlVerifier
 	{
-		readonly byte[] _key;
+		private readonly byte[] _key;
 
 		public CodelessUrlVerifier(byte[] key)
 		{
@@ -20,7 +20,7 @@ namespace Unidays
 			if (key.Length == 0)
 				throw new ArgumentException("Key cannot be empty", nameof(key));
 
-			this._key = key;
+			_key = key;
 		}
 
 		private string StringToHmacSHA512(StringBuilder queryString)
@@ -48,8 +48,8 @@ namespace Unidays
 		public DateTime? VerifyUrlParams(string ud_s, string ud_t, string ud_h)
 		{
 			var queryString = new StringBuilder();
-			queryString.Append("?ud_s=").AppendFormat(HttpUtility.UrlEncode(ud_s))
-						.Append("&ud_t=").AppendFormat(HttpUtility.UrlEncode(ud_t));
+			queryString.Append("?ud_s=").AppendFormat(HttpUtility.UrlEncode(ud_s) ?? "")
+						.Append("&ud_t=").AppendFormat(HttpUtility.UrlEncode(ud_t) ?? "");
 
 			try
 			{
