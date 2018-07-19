@@ -17,69 +17,69 @@
 		    return _directTrackingDetails;
 	    }
 
-		public DirectTrackingDetailsBuilder SetMemberId(string memberId)
+		public DirectTrackingDetailsBuilder WithMemberId(string memberId)
 	    {
 		    _directTrackingDetails.MemberId = memberId;
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetCode(string code)
+	    public DirectTrackingDetailsBuilder WithCode(string code)
 	    {
 		    _directTrackingDetails.Code = code;
 		    return this;
 	    }
 
-		public DirectTrackingDetailsBuilder SetOrderTotal(decimal orderTotal)
+		public DirectTrackingDetailsBuilder WithOrderTotal(decimal orderTotal)
 	    {
 		    _directTrackingDetails.OrderTotal = orderTotal;
 		    return this;
 	    }
-	    public DirectTrackingDetailsBuilder SetItemsUNiDAYSDiscount(decimal itemsUnidaysDiscount)
+	    public DirectTrackingDetailsBuilder WithItemsUNiDAYSDiscount(decimal itemsUnidaysDiscount)
 	    {
 		    _directTrackingDetails.ItemsUNiDAYSDiscount = itemsUnidaysDiscount;
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetItemsTax(decimal itemsTax)
+	    public DirectTrackingDetailsBuilder WithItemsTax(decimal itemsTax)
 	    {
 		    _directTrackingDetails.ItemsTax = itemsTax;
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetShippingGross(decimal shippingGross)
+	    public DirectTrackingDetailsBuilder WithShippingGross(decimal shippingGross)
 	    {
 		    _directTrackingDetails.ShippingGross = shippingGross;
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetShippingDiscount(decimal shippingDiscount)
+	    public DirectTrackingDetailsBuilder WithShippingDiscount(decimal shippingDiscount)
 	    {
 		    _directTrackingDetails.ShippingDiscount = shippingDiscount;
 
 			return this;
 		}
-	    public DirectTrackingDetailsBuilder SetItemsGross(decimal itemsGross)
+	    public DirectTrackingDetailsBuilder WithItemsGross(decimal itemsGross)
 	    {
 		    _directTrackingDetails.ItemsGross = itemsGross;
 
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetItemsOtherDiscount(decimal itemsOtherDiscount)
+	    public DirectTrackingDetailsBuilder WithItemsOtherDiscount(decimal itemsOtherDiscount)
 	    {
 		    _directTrackingDetails.ItemsOtherDiscount = itemsOtherDiscount;
 
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetUNiDAYSDiscountPercentage(decimal discountPercentage)
+	    public DirectTrackingDetailsBuilder WithUNiDAYSDiscountPercentage(decimal discountPercentage)
 	    {
 		    _directTrackingDetails.UNiDAYSDiscountPercentage = discountPercentage;
 
 		    return this;
 	    }
 
-	    public DirectTrackingDetailsBuilder SetNewCustomer(bool newCustomer)
+	    public DirectTrackingDetailsBuilder WithNewCustomer(bool newCustomer)
 	    {
 		    _directTrackingDetails.NewCustomer = newCustomer;
 

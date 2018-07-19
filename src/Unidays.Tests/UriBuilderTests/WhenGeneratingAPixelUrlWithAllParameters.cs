@@ -12,16 +12,16 @@ namespace Unidays.Tests.UriBuilderTests
 	    public WhenGeneratingAPixelUrlWithAllParameters()
 	    {
 		    var directTrackingDetails = new DirectTrackingDetailsBuilder("id of customer", "GBP", "the transaction id")
-		                                .SetOrderTotal(209.00m)
-		                                .SetItemsUNiDAYSDiscount(13.00m)
-		                                .SetCode("a code")
-		                                .SetItemsTax(34.50m)
-		                                .SetShippingGross(5.00m)
-		                                .SetShippingDiscount(3.00m)
-		                                .SetItemsGross(230.00m)
-		                                .SetItemsOtherDiscount(10.00m)
-		                                .SetUNiDAYSDiscountPercentage(10.00m)
-		                                .SetNewCustomer(true)
+		                                .WithOrderTotal(209.00m)
+		                                .WithItemsUNiDAYSDiscount(13.00m)
+		                                .WithCode("a code")
+		                                .WithItemsTax(34.50m)
+		                                .WithShippingGross(5.00m)
+		                                .WithShippingDiscount(3.00m)
+		                                .WithItemsGross(230.00m)
+		                                .WithItemsOtherDiscount(10.00m)
+		                                .WithUNiDAYSDiscountPercentage(10.00m)
+		                                .WithNewCustomer(true)
 		                                .Build();
 
 			_url = new UriGenerator().GeneratePixelUrl(directTrackingDetails);
