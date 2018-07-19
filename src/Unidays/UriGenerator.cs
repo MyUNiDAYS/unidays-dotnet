@@ -7,15 +7,15 @@ namespace Unidays
 {
 	public class UriGenerator
     {
-	    const string trackingUrl = "https://tracking.myunidays.com/perks/redemption/v1.2";
+	    const string TrackingUrl = "https://tracking.myunidays.com/perks/redemption/v1.2";
 
 	    public Uri GeneratePixelUrl(DirectTrackingDetails directTrackingDetails)
 	    {
 			var uri = new UriGenerator();
 
 		    var queryString = uri.GenerateQueryString(directTrackingDetails);
-		    queryString.Insert(0, trackingUrl);
-		    queryString.Insert(trackingUrl.Length, ".gif");
+		    queryString.Insert(0, TrackingUrl);
+		    queryString.Insert(TrackingUrl.Length, ".gif");
 
 			return new Uri(queryString.ToString());
 	    }
@@ -26,11 +26,36 @@ namespace Unidays
 
 		    var queryString = uri.GenerateQueryString(directTrackingDetails);
 		    uri.SignUrl(queryString, key);
-			queryString.Insert(0, trackingUrl);
-		    queryString.Insert(trackingUrl.Length, ".gif");
+			queryString.Insert(0, TrackingUrl);
+		    queryString.Insert(TrackingUrl.Length, ".gif");
 
 		    return new Uri(queryString.ToString());
 	    }
+
+		public Uri GeneratePixelUrl(DirectTrackingDetails directTrackingDetails, bool test)
+		{
+			var uri = new UriGenerator();
+
+			var queryString = uri.GenerateQueryString(directTrackingDetails);
+			queryString.Insert(0, TrackingUrl);
+			queryString.Insert(TrackingUrl.Length, ".gif");
+			queryString.Append($"&Test={test}");
+
+			return new Uri(queryString.ToString());
+		}
+
+		public Uri GeneratePixelUrl(byte[] key, DirectTrackingDetails directTrackingDetails, bool test)
+		{
+			var uri = new UriGenerator();
+
+			var queryString = uri.GenerateQueryString(directTrackingDetails);
+			uri.SignUrl(queryString, key);
+			queryString.Insert(0, TrackingUrl);
+			queryString.Insert(TrackingUrl.Length, ".gif");
+			queryString.Append($"&Test={test}");
+
+			return new Uri(queryString.ToString());
+		}
 
 		public Uri GenerateServerRequestUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
 	    {
@@ -38,10 +63,22 @@ namespace Unidays
 
 		    var queryString = uri.GenerateQueryString(directTrackingDetails);
 		    uri.SignUrl(queryString, key);
-		    queryString.Insert(0, trackingUrl);
+		    queryString.Insert(0, TrackingUrl);
 
 		    return new Uri(queryString.ToString());
 	    }
+
+		public Uri GenerateServerRequestUrl(byte[] key, DirectTrackingDetails directTrackingDetails, bool test)
+		{
+			var uri = new UriGenerator();
+
+			var queryString = uri.GenerateQueryString(directTrackingDetails);
+			uri.SignUrl(queryString, key);
+			queryString.Insert(0, TrackingUrl);
+			queryString.Append($"&Test={test}");
+
+			return new Uri(queryString.ToString());
+		}
 
 		public StringBuilder GenerateQueryString(DirectTrackingDetails directTrackingDetails)
 		{
