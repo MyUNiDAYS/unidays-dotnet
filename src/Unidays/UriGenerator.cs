@@ -128,7 +128,7 @@ namespace Unidays
 			return builder;
 		}
 
-		void SignUrl(StringBuilder builder, byte[] key)
+		public void SignUrl(StringBuilder builder, byte[] key)
 		{
 			using (var hmac = new HMACSHA512())
 			{
