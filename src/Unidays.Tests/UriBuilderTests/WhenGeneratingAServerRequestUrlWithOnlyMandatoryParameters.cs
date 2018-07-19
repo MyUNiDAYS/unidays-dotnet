@@ -15,7 +15,7 @@ namespace Unidays.Tests.UriBuilderTests
 		    var directTrackingDetails = new DirectTrackingDetailsBuilder("id of customer", "GBP", "the transaction id")
 		                                .Build();
 
-			_url = new UriGenerator().GenerateServerRequestUrl(new byte[4], directTrackingDetails);
+			_url = new UriGenerator().GenerateServerUrl(new byte[4], directTrackingDetails);
 	    }
 
 		[Fact]

@@ -57,7 +57,7 @@ namespace Unidays
 			return new Uri(queryString.ToString());
 		}
 
-		public Uri GenerateServerRequestUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
+		public Uri GenerateServerUrl(byte[] key, DirectTrackingDetails directTrackingDetails)
 	    {
 		    var uri = new UriGenerator();
 
@@ -68,7 +68,7 @@ namespace Unidays
 		    return new Uri(queryString.ToString());
 	    }
 
-		public Uri GenerateServerRequestUrl(byte[] key, DirectTrackingDetails directTrackingDetails, bool test)
+		public Uri GenerateServerUrl(byte[] key, DirectTrackingDetails directTrackingDetails, bool test)
 		{
 			var uri = new UriGenerator();
 

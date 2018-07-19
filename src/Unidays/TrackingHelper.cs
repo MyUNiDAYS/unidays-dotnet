@@ -24,28 +24,28 @@ namespace Unidays
 		/// <summary>
 		/// Generates the Server-to-Server Redemption Tracking URL
 		/// </summary>
-		/// <param name="key">the key for the signature</param>
-		/// <returns>The URL to make a server-to-server request to.</returns>
-		public Uri DirectTrackingUrl(byte[] key)
+		/// <param name="key">The key for the signature</param>
+		/// <returns>The URL to make a server-to-server request to</returns>
+		public Uri TrackingServerUrl(byte[] key)
         {
-			return new UriGenerator().GenerateServerRequestUrl(key, _directTrackingDetails);
+			return new UriGenerator().GenerateServerUrl(key, _directTrackingDetails);
         }
 
 		/// <summary>
 		/// Generates the Server-to-Server Redemption Tracking URL in Test Mode
 		/// </summary>
-		/// <param name="key">the key for the signature</param>
-		/// <param name="test">set to true to enable test mode</param>
-		/// <returns>The test URL to make a server-to-server request to.</returns>
-		public Uri DirectTrackingUrl(byte[] key, bool test)
+		/// <param name="key">The key for the signature</param>
+		/// <param name="test">Set to true to enable test mode</param>
+		/// <returns>The test URL to make a server-to-server request to</returns>
+		public Uri TrackingServerUrl(byte[] key, bool test)
 		{
-			return new UriGenerator().GenerateServerRequestUrl(key, _directTrackingDetails, test);
+			return new UriGenerator().GenerateServerUrl(key, _directTrackingDetails, test);
 		}
 
 		/// <summary>
         /// Generates the Redemption Tracking URL
         /// </summary>
-        /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
+        /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
         public Uri TrackingPixelUrl()
         {
 	        return new UriGenerator().GeneratePixelUrl(_directTrackingDetails);
@@ -54,7 +54,7 @@ namespace Unidays
 		/// <summary>
 	    /// Generates the Redemption Tracking URL
 	    /// </summary>
-	    /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
+	    /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
 	    public Uri TrackingPixelUrl(byte[] key)
 	    {
 		    return new UriGenerator().GeneratePixelUrl(key, _directTrackingDetails);
@@ -63,8 +63,8 @@ namespace Unidays
 		/// <summary>
 		/// Generates the Redemption Tracking URL in Test Mode
 		/// </summary>
-		/// <param name="test">set to true to enable test mode</param>
-		/// <returns>The Test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
+		/// <param name="test">Set to true to enable test mode</param>
+		/// <returns>The Test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
 		public Uri TrackingPixelUrl(bool test)
 		{
 			return new UriGenerator().GeneratePixelUrl(_directTrackingDetails, test);
@@ -73,8 +73,9 @@ namespace Unidays
 		/// <summary>
 		/// Generates the Redemption Tracking URL in Test Mode
 		/// </summary>
-		/// <param name="test">set to true to enable test mode</param>
-		/// <returns>The test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif.</returns>
+		/// <param name="key">The key for the signature</param>
+		/// <param name="test">Set to true to enable test mode</param>
+		/// <returns>The test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
 		public Uri TrackingPixelUrl(byte[] key, bool test)
 		{
 			return new UriGenerator().GeneratePixelUrl(key, _directTrackingDetails, test);

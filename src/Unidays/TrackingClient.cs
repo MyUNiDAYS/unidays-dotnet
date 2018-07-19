@@ -25,7 +25,7 @@ namespace Unidays
 	    /// <returns>StatusCode of the resulting call</returns>
 		public async Task<HttpStatusCode> SendAsync()
 	    {
-			var uri = new UriGenerator().GenerateServerRequestUrl(_key, _directTrackingDetails);
+			var uri = new UriGenerator().GenerateServerUrl(_key, _directTrackingDetails);
 		    var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, uri));
 			
 			return response.StatusCode;

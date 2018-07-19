@@ -17,7 +17,7 @@ namespace Unidays.Tests.TrackingHelperTests
 
 				var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer", "GBP", "the transaction").Build();
 
-				url = new TrackingHelper(directTrackingDetails).DirectTrackingUrl(key);
+				url = new TrackingHelper(directTrackingDetails).TrackingServerUrl(key);
             }
 
              [Fact]

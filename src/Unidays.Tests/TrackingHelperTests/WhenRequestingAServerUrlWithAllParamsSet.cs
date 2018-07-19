@@ -27,7 +27,7 @@ namespace Unidays.Tests.TrackingHelperTests
 	                                        .WithNewCustomer(true)
 	                                        .Build();
 
-				url = new TrackingHelper(directTrackingDetails).DirectTrackingUrl(key);
+				url = new TrackingHelper(directTrackingDetails).TrackingServerUrl(key);
             }
 
             [Fact]

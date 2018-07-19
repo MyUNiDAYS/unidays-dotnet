@@ -24,7 +24,7 @@ namespace Unidays.Tests.UriBuilderTests
 		                                .WithNewCustomer(true)
 		                                .Build();
 
-			_url = new UriGenerator().GenerateServerRequestUrl(new byte[4], directTrackingDetails);
+			_url = new UriGenerator().GenerateServerUrl(new byte[4], directTrackingDetails);
 	    }
 
 	    [Theory]
