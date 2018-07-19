@@ -55,18 +55,15 @@ namespace Unidays
 			{
 				var hash = StringToHmacSHA512(queryString);
 
-				if (ud_h == hash)
-				{
-					var timeSinceEpoch = Convert.ToInt64(ud_t);
-					return new DateTime(timeSinceEpoch, DateTimeKind.Utc);
-				}
+				if (ud_h != hash) return null;
+
+				var timeSinceEpoch = Convert.ToInt64(ud_t);
+				return new DateTime(timeSinceEpoch, DateTimeKind.Utc);
 			}
 			catch (Exception ex)
 			{
 				throw new Exception("Unable to verify URL", ex);
 			}
-
-			return null;
 		}
 
 		/// <summary>
