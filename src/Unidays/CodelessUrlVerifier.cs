@@ -6,13 +6,13 @@ namespace Unidays
 	using System.Web;
 
 	/// <summary>
-	/// UNiDAYS SDK Helper Class
+	/// UNiDAYS SDK - Codeless API Helper Class
 	/// </summary>
-	public sealed class StudentHelper
+	public sealed class CodelessUrlVerifier
 	{
 		readonly byte[] _key;
 
-		public StudentHelper(byte[] key)
+		public CodelessUrlVerifier(byte[] key)
 		{
 			if (key == null)
 				throw new ArgumentNullException(nameof(key), "Key cannot be null");

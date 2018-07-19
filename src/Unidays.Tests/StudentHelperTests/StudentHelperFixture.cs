@@ -29,11 +29,11 @@ namespace Unidays.Tests.StudentHelperTests
 {
     public class StudentHelperFixture 
     {
-        public StudentHelper StudentHelper { get; }
+        public CodelessUrlVerifier CodelessUrlVerifier { get; }
 
         public StudentHelperFixture()
         {
-            StudentHelper = new StudentHelper(Convert.FromBase64String("tnFUmqDkq1w9eT65hF9okxL1On+d2BQWUyOFLYE3FTOwHjmnt5Sh/sxMA3/i0od3pV5EBfSAmXo//fjIdAE3cIAatX7ZZqVi0Dr8qEYGtku+ZRVbPSmTcEUTA/gXYo3KyL2JqXaZ/qhUvCMbLWyV07qRiFOjyLdOWhioHlJM5io="));
+            CodelessUrlVerifier = new CodelessUrlVerifier(Convert.FromBase64String("tnFUmqDkq1w9eT65hF9okxL1On+d2BQWUyOFLYE3FTOwHjmnt5Sh/sxMA3/i0od3pV5EBfSAmXo//fjIdAE3cIAatX7ZZqVi0Dr8qEYGtku+ZRVbPSmTcEUTA/gXYo3KyL2JqXaZ/qhUvCMbLWyV07qRiFOjyLdOWhioHlJM5io="));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Unidays.Tests.StudentHelperTests
             [InlineData(null, "Key cannot be null")]
             public void ThenAnArgumentExceptionIsThrown(byte[] key, string expectedMessage)
             {
-                Action ctor = () => new Unidays.StudentHelper(key);
+                Action ctor = () => new Unidays.CodelessUrlVerifier(key);
 
                 ctor.Should().Throw<ArgumentException>()
                     .Which.Message.Should().Be($"{expectedMessage}\r\nParameter name: key");
