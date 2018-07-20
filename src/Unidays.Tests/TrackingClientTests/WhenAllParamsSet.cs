@@ -11,7 +11,7 @@ namespace Unidays.Tests.TrackingClientTests
     {
         public class WhenAllParamsSet
         {
-            private HttpStatusCode _response;
+            private HttpResponseMessage _response;
             private HttpClient _httpClient;
 
             public WhenAllParamsSet()
@@ -31,13 +31,13 @@ namespace Unidays.Tests.TrackingClientTests
                                             .Build();
 
                 _httpClient =  new HttpClient(new OkResponseHandler());
-                _response = new TrackingClient(_httpClient, directTrackingDetails, key).SendAsync().Result;
+                _response = new TrackingClient(directTrackingDetails, key, _httpClient).SendAsync().Result;
             }
 
             [Fact]
             public void TheSchemeShouldBeHttps()
             {
-                _response.Should().Be(HttpStatusCode.OK);
+                _response.StatusCode.Should().Be(HttpStatusCode.OK);
             }
 
             private void Dispose()

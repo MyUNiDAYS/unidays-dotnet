@@ -8,28 +8,28 @@ namespace Unidays
 {
     public sealed class TrackingClient
     {
-        private readonly HttpClient _httpClient;
         private readonly DirectTrackingDetails _directTrackingDetails;
         private readonly string _key;
+        private readonly HttpClient _httpClient;
 
-        public TrackingClient(HttpClient httpClient, DirectTrackingDetails directTrackingDetails, string key)
+        public TrackingClient(DirectTrackingDetails directTrackingDetails, string key, HttpClient httpClient = null)
         {
-            _httpClient = httpClient;
             _directTrackingDetails = directTrackingDetails;
             _key = key;
+            _httpClient = httpClient ?? new HttpClient();
         }
 
         /// <summary>
         /// Sends a Server-to-Server Redemption Tracking Request
         /// </summary>
         /// <param name="sendTestParameter">Set to true to enable test mode</param>
-        /// <returns>StatusCode of the resulting call</returns>
-        public async Task<HttpStatusCode> SendAsync(bool sendTestParameter = false)
+        /// <returns>HttpResponseMessage of the resulting call</returns>
+        public async Task<HttpResponseMessage> SendAsync(bool sendTestParameter = false)
         {
             var uri = new UriGenerator(sendTestParameter).GenerateServerUrl(_key, _directTrackingDetails);
             var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, uri));
 
-            return response.StatusCode;
+            return response;
         }
     }
 }

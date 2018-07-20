@@ -58,42 +58,32 @@ Below are examples of implementing the server to server and client to server int
 ```csharp
 class Program
 {
-    static void Main()
+    static async Task Main()
     {
         // UNiDAYS will provide your region specific customerId and your signing key
         var customerId = "someCustomerId";
-        var signingKey = Encoding.ASCII.GetBytes("someSigningKey");
+        var signingKey = "someSigningKey";
 
-        // Create a reference to the UNiDAYS object
-        var unidays = new TrackingHelper(customerId, signingKey);
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction id")
+                                        .WithOrderTotal(209.00m)
+                                        .WithItemsUNiDAYSDiscount(13.00m)
+                                        .WithCode("a code")
+                                        .WithItemsTax(34.50m)
+                                        .WithShippingGross(5.00m)
+                                        .WithShippingDiscount(3.00m)
+                                        .WithItemsGross(230.00m)
+                                        .WithItemsOtherDiscount(10.00m)
+                                        .WithUNiDAYSDiscountPercentage(10.00m)
+                                        .WithNewCustomer(true)
+                                        .Build();
 
-        var trackingUrl = ServerToServer(unidays);
+        var response = await new TrackingClient(directTrackingDetails, signingKey).SendAsync();
 
-        // If you're making a server-to-server request, you will need to call the generated URL, here is an example of how you could do this.
-        var request = (HttpWebRequest)WebRequest.Create(trackingUrl);
-        request.GetResponse();
-    }
-
-    static string ServerToServerUrl(TrackingHelper unidays)
-    {
-        var code = "UNiDAYSCode"; // for a coded request. If codeless pass String.Empty.
-        var memberId = "someMemberId"; // for a codeless request. If codeed pass String.Empty.
-
-        var transactionId = "order123";
-        var currency = "GBP";
-        var orderTotal = 209.00M;
-        var itemsUNiDAYSDiscount = 13.00M;
-        var itemsTax = 34.50M;
-        var shippingGross = 5.00M;
-        var shippingDiscount = 3.00M;
-        var itemsGross = 230.00M;
-        var itemsOtherDiscount = 10.00M;
-        var UNiDAYSDiscountPercentage = 10.00M;
-        var newCustomer = 1;
-
-        return unidays.ServerToServerTrackingUrl(transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount,
-            code, itemsTax, shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage,
-            newCustomer);
+        if (!response.IsSuccessStatusCode())
+        {
+            // The response body contains a json description of the errors
+            System.Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
     }
 }
 ```
@@ -105,40 +95,24 @@ class Program
 {
     static void Main()
     {
-        // UNiDAYS will provide your region specific customerId and your signing key
+        // UNiDAYS will provide your region specific customerId
         var customerId = "someCustomerId";
-        var signingKey = Encoding.ASCII.GetBytes("someSigningKey");
+        var signingKey = "someSigningKey";
 
-        // Create a reference to the UNiDAYS object
-        var unidays = new TrackingHelper(customerId, signingKey);
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction")
+                                    .WithOrderTotal(209.00m)
+                                    .WithItemsUNiDAYSDiscount(13.00m)
+                                    .WithCode("a code")
+                                    .WithItemsTax(34.50m)
+                                    .WithShippingGross(5.00m)
+                                    .WithShippingDiscount(3.00m)
+                                    .WithItemsGross(230.00m)
+                                    .WithItemsOtherDiscount(10.00m)
+                                    .WithUNiDAYSDiscountPercentage(10.00m)
+                                    .WithNewCustomer(true)
+                                    .Build();
 
-         var trackingUrl = ClientSideUrl(unidays);
-
-        // If you're making a server-to-server request, you will need to call the generated URL, here is an example of how you could do this.
-        var request = (HttpWebRequest)WebRequest.Create(trackingUrl);
-        request.GetResponse();
-    }
-
-    static string ClientSideUrl(TrackingHelper unidays)
-    {
-        var code = "UNiDAYSCode"; // for a coded request. If codeless pass String.Empty.
-        var memberId = "someMemberId"; // for a codeless request. If codeed pass String.Empty.
-
-        var transactionId = "order123";
-        var currency = "GBP";
-        var orderTotal = 209.00M;
-        var itemsUNiDAYSDiscount = 13.00M;
-        var itemsTax = 34.50M;
-        var shippingGross = 5.00M;
-        var shippingDiscount = 3.00M;
-        var itemsGross = 230.00M;
-        var itemsOtherDiscount = 10.00M;
-        var UNiDAYSDiscountPercentage = 10.00M;
-        var newCustomer = 1;
-
-        return unidays.ClientSideTrackingPixelUrl(transactionId, memberId, currency, orderTotal, itemsUNiDAYSDiscount,
-            code, itemsTax, shippingGross, shippingDiscount, itemsGross, itemsOtherDiscount, UNiDAYSDiscountPercentage,
-            newCustomer);
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(signingKey);
     }
 }
 ```
@@ -150,23 +124,16 @@ class Program
 {
     static void Main()
     {
-
-    }
-
-    static void VerifyStudentUrl(StudentHelper studentHelper)
-    {
         // Your key as provided by UNiDAYS
         const string unidaysSigningKey = @"tnFUmqDkq1w9eT65hF9okxL1On+d2BQWUyOFLYE3FTOwHjmnt5Sh/sxMA3/i0od3pV5EBfSAmXo//fjIdAE3cIAatX7ZZqVi0Dr8qEYGtku+ZRVbPSmTcEUTA/gXYo3KyL2JqXaZ/qhUvCMbLWyV07qRiFOjyLdOWhioHlJM5io=";
-        // Turn key into a byte array
-        var key = Convert.FromBase64String(unidaysSigningKey);
 
         // Obtain parameters from the query string. Be sure to URL Decode them
         var ud_s = "Do/faqh330SGgCnn4t3X4g==";
         var ud_t = "1395741712";
         var ud_h = "i38dJdX+XLKuE4F5tv+Knpl5NPtu5zrdsjnqBQliJEJE4NkMmfurVnUaT46WluRYoD1/f5spAqU36YgeTMCNeg==";
 
-        var studentApiHelper = new UNiDAYS.StudentApiHelper(key);
-        var verified = studentApiHelper.VerifyHash(ud_s, ud_t, ud_h);
+        var verifier = new Unidays.CodelessUrlVerifier(unidaysSigningKey);
+        DateTime? verifiedAt = verifier.VerifyUrlParams(ud_s, ud_t, ud_h);
     }
 }
 ```
