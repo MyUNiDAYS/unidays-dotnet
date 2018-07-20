@@ -8,25 +8,25 @@ namespace Unidays.Tests.TrackingHelperTests
     public partial class GivenATrackingHelper
     {
         public class WhenRequestingASignedPixelUrlWithAllParamsSet
-		{
+        {
             private readonly Uri url;
 
             public WhenRequestingASignedPixelUrlWithAllParamsSet()
             {
-	            var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction")
-	                                        .WithOrderTotal(209.00m)
-	                                        .WithItemsUNiDAYSDiscount(13.00m)
-	                                        .WithCode("a code")
-	                                        .WithItemsTax(34.50m)
-	                                        .WithShippingGross(5.00m)
-	                                        .WithShippingDiscount(3.00m)
-	                                        .WithItemsGross(230.00m)
-	                                        .WithItemsOtherDiscount(10.00m)
-	                                        .WithUNiDAYSDiscountPercentage(10.00m)
-	                                        .WithNewCustomer(true)
-	                                        .Build();
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction")
+                                            .WithOrderTotal(209.00m)
+                                            .WithItemsUNiDAYSDiscount(13.00m)
+                                            .WithCode("a code")
+                                            .WithItemsTax(34.50m)
+                                            .WithShippingGross(5.00m)
+                                            .WithShippingDiscount(3.00m)
+                                            .WithItemsGross(230.00m)
+                                            .WithItemsOtherDiscount(10.00m)
+                                            .WithUNiDAYSDiscountPercentage(10.00m)
+                                            .WithNewCustomer(true)
+                                            .Build();
 
-	            url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(new byte[4]);
+                url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl("AAAAAA==");
             }
 
             [Fact]
@@ -44,7 +44,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [Fact]
             public void ThePathShouldBePerksRedemptionV1()
             {
-                this.url.PathAndQuery.Should().StartWith("/perks/redemption/v1.2.gif");
+                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/gif");
             }
 
             [Theory]

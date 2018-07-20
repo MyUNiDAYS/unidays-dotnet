@@ -51,7 +51,7 @@ Here is an example basket with the fields relating to UNiDAYS tracking parameter
 
 ## Example Usage
 
-Below are examples of implementing the server to server and client to server integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.  
+Below are examples of implementing the server to server and client to server integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
 
 ### Server To Server
 
@@ -66,7 +66,7 @@ class Program
 
         // Create a reference to the UNiDAYS object
         var unidays = new TrackingHelper(customerId, signingKey);
-       
+
         var trackingUrl = ServerToServer(unidays);
 
         // If you're making a server-to-server request, you will need to call the generated URL, here is an example of how you could do this.
@@ -99,7 +99,7 @@ class Program
 ```
 
 
-### Client To Server 
+### Client To Server
 
 
 
@@ -126,7 +126,7 @@ class Program
     {
         var code = "UNiDAYSCode"; // for a coded request. If codeless pass String.Empty.
         var memberId = "someMemberId"; // for a codeless request. If codeed pass String.Empty.
-        
+
         var transactionId = "order123";
         var currency = "GBP";
         var orderTotal = 209.00M;
@@ -159,7 +159,7 @@ class Program
 
     }
 
-    static void VerifyStudentUrl(StudentHelper studentHelper) 
+    static void VerifyStudentUrl(StudentHelper studentHelper)
     {
         // Your key as provided by UNiDAYS
         const string unidaysSigningKey = @"tnFUmqDkq1w9eT65hF9okxL1On+d2BQWUyOFLYE3FTOwHjmnt5Sh/sxMA3/i0od3pV5EBfSAmXo//fjIdAE3cIAatX7ZZqVi0Dr8qEYGtku+ZRVbPSmTcEUTA/gXYo3KyL2JqXaZ/qhUvCMbLWyV07qRiFOjyLdOWhioHlJM5io=";

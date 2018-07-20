@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace Unidays.Tests.TrackingHelperTests
 {
-	public partial class GivenATrackingHelper
+    public partial class GivenATrackingHelper
     {
         public class WhenConstructingWithAnInvalidCustomerId
         {
@@ -19,5 +19,5 @@ namespace Unidays.Tests.TrackingHelperTests
                     .Which.Message.Should().Be("CustomerId is required\r\nParameter name: customerId");
             }
         }
-	}
+    }
 }
