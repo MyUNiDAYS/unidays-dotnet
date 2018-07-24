@@ -1,7 +1,6 @@
 # UNiDAYS Dotnet Tracking Helper
 
-![NuGet](https://img.shields.io/nuget/dt/Microsoft.AspNetCore.Mvc.svg) <- change to our project
-Include build tool badge.
+![NuGet](https://img.shields.io/nuget/dt/Microsoft.AspNetCore.Mvc.svg)
 
 This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementation, examples for server - server and client - server integrations.
 
@@ -15,6 +14,8 @@ Mandatory parameters are:
 * `TransactionId`
 * `Currency`
 * `Code` or `MemberId`
+
+Note any of the following properties to which the value is unknown should be omitted from calls.
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
