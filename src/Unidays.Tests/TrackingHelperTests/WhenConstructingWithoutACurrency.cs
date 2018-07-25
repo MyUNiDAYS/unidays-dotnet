@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using FluentAssertions;
 
@@ -13,7 +13,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData(null)]
             public void ThenAnArgumentExceptionIsThrown(string currency)
             {
-                Action ctor = () => new Unidays.TrackingHelper(new DirectTrackingDetailsBuilder("a customer Id", currency, "the transaction id").Build());
+                Action ctor = () => new TrackingHelper(new DirectTrackingDetailsBuilder("a partner Id", currency, "the transaction id").Build());
 
                 ctor.Should().Throw<ArgumentException>()
                     .Which.Message.Should().Be("Currency is required\r\nParameter name: currency");

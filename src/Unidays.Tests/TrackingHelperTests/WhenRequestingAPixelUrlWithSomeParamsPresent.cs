@@ -13,7 +13,7 @@ namespace Unidays.Tests.TrackingHelperTests
 
             public WhenRequestingAPixelUrlWithSomeParamsPresent()
             {
-                var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer", "GBP", "the transaction").Build();
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner", "GBP", "the transaction").Build();
                 url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
             }
 
@@ -36,7 +36,7 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Theory]
-            [InlineData("CustomerId", "a customer")]
+            [InlineData("PartnerId", "a partner")]
             [InlineData("TransactionId", "the transaction")]
             [InlineData("Currency", "GBP")]
             public void TheParameterShouldBeCorrect(string parameter, string result)

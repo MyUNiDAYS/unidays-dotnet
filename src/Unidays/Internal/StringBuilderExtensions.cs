@@ -10,8 +10,8 @@ namespace Unidays.Internal
         public static StringBuilder AppendTrackingParameters(this StringBuilder builder, DirectTrackingDetails directTrackingDetails)
         {
             builder
-                .Append("?CustomerId=")
-                .Append(HttpUtility.UrlEncode(directTrackingDetails.CustomerId))
+                .Append("?PartnerId=")
+                .Append(HttpUtility.UrlEncode(directTrackingDetails.PartnerId))
                 .Append("&TransactionId=")
                 .Append(HttpUtility.UrlEncode(directTrackingDetails.TransactionId))
                 .Append("&Currency=")

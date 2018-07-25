@@ -13,7 +13,7 @@ namespace Unidays.Tests.TrackingHelperTests
 
             public WhenRequestingASignedPixelUrlWithTestModeSet()
             {
-                var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction")
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction")
                                             .WithOrderTotal(209.00m)
                                             .WithItemsUNiDAYSDiscount(13.00m)
                                             .WithCode("a code")
@@ -48,7 +48,7 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Theory]
-            [InlineData("CustomerId", "a customer Id")]
+            [InlineData("PartnerId", "a partner Id")]
             [InlineData("TransactionId", "the transaction")]
             [InlineData("Currency", "GBP")]
             [InlineData("OrderTotal", "209.00")]
@@ -61,7 +61,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "10.00")]
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
             [InlineData("NewCustomer", "True")]
-            [InlineData("Signature", "BF4pIsf2d+W+JQYnca2pOtJIbg+XKSEVv0GoI18vYifuzAAv4O+xpvgCDbXods47NnNhwoBnVTiTndh5YRuAeQ==")]
+            [InlineData("Signature", "ubCLOIdBw1LL9KN6B0zFTU8K5+G2WSm6S5hXmWYV9Kv/w5LQAJaUq9hhkt1A4q5BssurypqH4IH/kjmeD5TlwQ==")]
             [InlineData("Test", "True")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {

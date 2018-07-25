@@ -1,13 +1,13 @@
-﻿namespace Unidays
+namespace Unidays
 {
     public class DirectTrackingDetailsBuilder
     {
         private DirectTrackingDetails _directTrackingDetails;
-        public DirectTrackingDetailsBuilder(string customerId, string currency, string transactionId)
+        public DirectTrackingDetailsBuilder(string partnerId, string currency, string transactionId)
         {
             _directTrackingDetails = new DirectTrackingDetails
             {
-                CustomerId = customerId,
+                PartnerId = partnerId,
                 Currency = currency,
                 TransactionId = transactionId
             };

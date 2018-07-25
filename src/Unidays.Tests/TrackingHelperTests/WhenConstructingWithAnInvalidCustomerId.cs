@@ -6,17 +6,17 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenConstructingWithAnInvalidCustomerId
+        public class WhenConstructingWithAnInvalidPartnerId
         {
             [Theory]
             [InlineData("")]
             [InlineData(null)]
-            public void ThenAnArgumentExceptionIsThrown(string customerId)
+            public void ThenAnArgumentExceptionIsThrown(string partnerId)
             {
-                Action ctor = () => new TrackingHelper(new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction id").Build());
+                Action ctor = () => new TrackingHelper(new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction id").Build());
 
                 ctor.Should().Throw<ArgumentException>()
-                    .Which.Message.Should().Be("CustomerId is required\r\nParameter name: customerId");
+                    .Which.Message.Should().Be("PartnerId is required\r\nParameter name: partnerId");
             }
         }
     }

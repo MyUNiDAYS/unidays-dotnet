@@ -14,7 +14,7 @@ namespace Unidays.Tests.TrackingHelperTests
             public WhenRequestingAServerUrlWithTestModeSet()
             {
                 var key = "xCaiGms6eEcRYKqY7hXYPBLizZwY9Z2g/OqyOXa0r7lqZ8Npf78eK+rbnoplH7xCAab/0+h1zLYxfJm62GbgSHfnvjUGEOuh/MtHNALCoXD6Y3YWIrJnlEfym2kmWl7ZQoFyYbZXBTZq0SyCXJAI53ShKIcTPDBM3sNLm70IWns=";
-                var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction id")
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction id")
                                             .WithOrderTotal(209.00m)
                                             .WithItemsUNiDAYSDiscount(13.00m)
                                             .WithCode("a code")
@@ -49,7 +49,7 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Theory]
-            [InlineData("CustomerId", "a customer Id")]
+            [InlineData("PartnerId", "a partner Id")]
             [InlineData("TransactionId", "the transaction id")]
             [InlineData("Currency", "GBP")]
             [InlineData("OrderTotal", "209.00")]
@@ -62,7 +62,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "10.00")]
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
             [InlineData("NewCustomer", "True")]
-            [InlineData("Signature", "9CwYes3bxSI//VZc+94YVJL9JSht3BH6jtoAAPC/goyyFBEnEuYI31TQCs13LyuegSKC+0yCr63Ql9g3XVeUDw==")]
+            [InlineData("Signature", "pXFZGuMoAFwUcyurd+wtC7rauRD2ekFBudoP+mP4B+2vfepvS4ndwGcGo8ghxEoA0gc/vFG/q/DuIOGuff650w==")]
             [InlineData("Test", "True")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {

@@ -12,8 +12,8 @@ namespace Unidays
 
         public TrackingHelper(DirectTrackingDetails directTrackingDetails)
         {
-            if (string.IsNullOrEmpty(directTrackingDetails.CustomerId))
-                throw new ArgumentException("CustomerId is required", "customerId");
+            if (string.IsNullOrEmpty(directTrackingDetails.PartnerId))
+                throw new ArgumentException("PartnerId is required", "partnerId");
             if (string.IsNullOrEmpty(directTrackingDetails.Currency))
                 throw new ArgumentException("Currency is required", "currency");
             if (string.IsNullOrEmpty(directTrackingDetails.TransactionId))

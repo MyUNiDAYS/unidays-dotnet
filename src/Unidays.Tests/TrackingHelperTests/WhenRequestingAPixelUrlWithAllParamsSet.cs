@@ -13,7 +13,7 @@ namespace Unidays.Tests.TrackingHelperTests
 
             public WhenRequestingAPixelUrlWithAllParamsSet()
             {
-                var directTrackingDetails = new DirectTrackingDetailsBuilder("a customer Id", "GBP", "the transaction")
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction")
                                             .WithOrderTotal(209.00m)
                                             .WithItemsUNiDAYSDiscount(13.00m)
                                             .WithCode("a code")
@@ -48,7 +48,7 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Theory]
-            [InlineData("CustomerId", "a customer Id")]
+            [InlineData("PartnerId", "a partner Id")]
             [InlineData("TransactionId", "the transaction")]
             [InlineData("Currency", "GBP")]
             [InlineData("OrderTotal", "209.00")]

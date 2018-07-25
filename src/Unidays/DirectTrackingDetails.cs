@@ -1,8 +1,8 @@
-﻿namespace Unidays
+namespace Unidays
 {
     public class DirectTrackingDetails
     {
-        public string CustomerId { get; set; }
+        public string PartnerId { get; set; }
         public string TransactionId { get; set; }
         public string Currency { get; set; }
 
