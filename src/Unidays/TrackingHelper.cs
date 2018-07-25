@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unidays.Internal;
 
 namespace Unidays
@@ -36,7 +36,6 @@ namespace Unidays
         /// Generates the Server-to-Server Redemption Tracking URL in Test Mode
         /// </summary>
         /// <param name="key">The key for the signature</param>
-        /// <param name="test">Set to true to enable test mode</param>
         /// <returns>The test URL to make a server-to-server request to</returns>
         public Uri TrackingServerTestUrl(string key)
         {
@@ -55,6 +54,7 @@ namespace Unidays
         /// <summary>
         /// Generates the Redemption Tracking URL
         /// </summary>
+        /// <param name="key">The key for the signature</param>
         /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
         public Uri TrackingPixelUrl(string key)
         {

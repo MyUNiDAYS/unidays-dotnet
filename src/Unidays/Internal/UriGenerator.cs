@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Text;
 
 namespace Unidays.Internal
 {
     internal class UriGenerator
     {
-        const string TrackingUrl = "https://tracking.myunidays.com/v1.2/redemption";
-        const string TrackingGifUrl = TrackingUrl + "/gif";
+        private const string TrackingUrl = "https://tracking.myunidays.com/v1.2/redemption";
+        private const string TrackingGifUrl = TrackingUrl + "/gif";
         private readonly bool generateTestUris;
 
         public UriGenerator(bool generateTestUris)

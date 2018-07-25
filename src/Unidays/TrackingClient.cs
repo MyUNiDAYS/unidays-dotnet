@@ -1,12 +1,10 @@
-﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Unidays.Internal;
 
 namespace Unidays
 {
-    public sealed class TrackingClient
+	public sealed class TrackingClient
     {
         private readonly DirectTrackingDetails _directTrackingDetails;
         private readonly string _key;
