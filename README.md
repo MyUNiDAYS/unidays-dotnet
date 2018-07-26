@@ -1,8 +1,38 @@
+<p align="center">
+  <img src="./assets/UNIDAYS_Logo.png" />
+</p>
+<br/>
+
+![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
+
 # UNiDAYS Dotnet Tracking Helper
 
-![NuGet](https://img.shields.io/nuget/dt/Microsoft.AspNetCore.Mvc.svg)
+This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
 
-This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementation, examples for server - server and client - server integrations.
+## Contents
+
+- [How to use this code?](#how-to-use-this-code)
+- [Contributing](#contributing)
+- [Parameters](#parameters)
+	- [Example Basket](#example-basket)
+
+- [Example Usage](#example-usage)
+	- [Get Server Request URL](#get-server-request-url)
+	- [Send Request](#send-request)
+	- [Client To Server](#client-to-server)
+	- [Codeless Client](#codeless-client)
+	- [Test endpoint](#test-endpoint)
+
+## How to use this code
+
+- Pull the package from [NuGet]().
+- See the example usage section for the type of call you intend to use. Each of these contains an example.
+
+## Contributing
+
+This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself or come across any problems, you can raise them and / or suggest changes in implementation.
+
+If you are interested in contributing to this codebase, please follow the [contributing guidelines](./GUIDELINES/contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
 
 ## Parameters
 
@@ -10,7 +40,7 @@ Here is a description of all the available parameters. Which of these you provid
 
 Mandatory parameters are:
 
-* `CustomerId`
+* `PartnerId`
 * `TransactionId`
 * `Currency`
 * `Code` or `MemberId`
@@ -61,11 +91,11 @@ class Program
 {
     static async Task Main()
     {
-        // UNiDAYS will provide your region specific customerId and your signing key
-        var customerId = "someCustomerId";
+        // UNiDAYS will provide your region specific partnerId and your signing key
+        var partnerId = "somePartnerId";
         var signingKey = "someSigningKey";
 
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction id")
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction id")
                                         .WithOrderTotal(209.00m)
                                         .WithItemsUNiDAYSDiscount(13.00m)
                                         .WithCode("a code")
@@ -96,11 +126,11 @@ class Program
 {
     static void Main()
     {
-        // UNiDAYS will provide your region specific customerId
-        var customerId = "someCustomerId";
+        // UNiDAYS will provide your region specific partnerId
+        var partnerId = "somePartnerId";
         var signingKey = "someSigningKey";
 
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction")
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
                                     .WithOrderTotal(209.00m)
                                     .WithItemsUNiDAYSDiscount(13.00m)
                                     .WithCode("a code")
