@@ -5,9 +5,9 @@
 
 ![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
 
-# UNiDAYS Dotnet Tracking Helper
+# UNiDAYS .NET Direct Tracking
 
-This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
+This is the .NET library for UNiDAYS direct tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
 
 ## Contents
 
@@ -17,11 +17,11 @@ This is the .NET library for UNiDAYS redemption tracking. This is to be used for
 	- [Example Basket](#example-basket)
 
 - [Example Usage](#example-usage)
-	- [Get Server Request URL](#get-server-request-url)
-	- [Send Request](#send-request)
-	- [Client To Server](#client-to-server)
-	- [Codeless Client](#codeless-client)
-	- [Test endpoint](#test-endpoint)
+    - [Get Server URL _(returns url for server to server request)_](#get-server-request-url)
+    - [Get Tracking URL _(returns url for client to server request)_](#client-to-server)
+    - [Codeless Client _(sends server to server request)_](#codeless-client)
+    - [Test endpoints](#test-endpoint)
+    - [Verify Student URL](#verify-student-url)
 
 ## How to use this code
 
@@ -38,23 +38,29 @@ If you are interested in contributing to this codebase, please follow the [contr
 
 Here is a description of all the available parameters. Which of these you provide to us are dependant on the agreed contract.
 
-Mandatory parameters are:
-
-* `PartnerId`
-* `TransactionId`
-* `Currency`
-* `Code` or `MemberId`
-
-Note any of the following properties to which the value is unknown should be omitted from calls.
+#### Mandatory parameters are:
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
+| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | String | XaxptFh0sK8Co6pI |
 | TransactionId | A unique ID for the transaction in your system | String | Order123 |
-| MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
 | Currency | The ISO 4217 currency code | String | GBP |
+
+Having **EITHER** Code or MemberID as a parameter is also mandatory:
+
+| Parameter | Description | Data Type | Example |
+|---|---|---|---|
+| Code | The UNiDAYS discount code used | String | ABC123 |
+| MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
+
+### Optional parameters:
+
+Note any of the following properties to which the value is unknown should be omitted from calls. Which of the following values you provide to us will depend on your agreed contract.
+
+| Parameter | Description | Data Type | Example |
+|---|---|---|---|
 | OrderTotal | Total monetary amount paid, formatted to 2 decimal places | Decimal | 209.00 |
 | ItemsUNiDAYSDiscount | Total monetary amount of UNiDAYS discount applied on gross item value `ItemsGross`, formatted to 2 decimal places | Decimal | 13.00 |
-| Code | The UNiDAYS discount code used | String | ABC123 |
 | ItemsTax | Total monetary amount of tax applied to items, formatted to 2 decimal places | Decimal | 34.50
 | ShippingGross | Total monetary amount of shipping cost, before any shipping discount or tax applied, formatted to 2 decimal places | Decimal | 5.00 |
 | ShippingDiscount | Total monetary amount of shipping discount (UNiDAYS or otherwise) applied to the order, formatted to 2 decimal places | Decimal | 3.00 |
@@ -82,9 +88,89 @@ Here is an example basket with the fields relating to UNiDAYS tracking parameter
 
 ## Example Usage
 
-Below are examples of implementing the server to server and client to server integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
+Below are examples of implementing the different types of integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
 
-### Server To Server
+- [Get Server URL _(returns url for server to server request)_](#get-server-url)
+- [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
+- [Codeless Client _(sends server to server request)_](#codeless-client)
+- [Test endpoints](#test-endpoints)
+- [Verify Student URL](#verify-student-url)
+
+### Get Server URL
+
+It is a mandatory requirement that all server URL's are signed. What this means is that you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
+
+#### Making the call
+
+The method to get the URL to make a server-to-server request with is `TrackingServerUrl(key)`. To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
+
+Once the object containing the details you need to send us is created, create a Tracking helper, providing those details as an parameter (`new TrackingHelper(directTrackingDetails)` in the example) and call `.TrackingServerUrl(signingKey)` where signing key is the key provided to you by UNiDAYS
+
+#### Return
+
+A URL will be returned to you, which can then be used to call our API.
+
+#### Example 
+```csharp
+class Program
+{
+    static void Main()
+    {
+        // UNiDAYS will provide your region specific partnerId
+        var partnerId = "somePartnerId";
+        var signingKey = "someSigningKey";
+
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
+                                    .WithOrderTotal(209.00m)
+                                    .WithItemsUNiDAYSDiscount(13.00m)
+                                    .WithCode("a code")
+                                    .WithItemsTax(34.50m)
+                                    .WithShippingGross(5.00m)
+                                    .WithShippingDiscount(3.00m)
+                                    .WithItemsGross(230.00m)
+                                    .WithItemsOtherDiscount(10.00m)
+                                    .WithUNiDAYSDiscountPercentage(10.00m)
+                                    .WithNewCustomer(true)
+                                    .Build();
+
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingServerUrl(signingKey);
+    }
+}
+```
+
+### Get Pixel URL
+
+#### Unsigned
+
+#### Signed
+```csharp
+class Program
+{
+    static void Main()
+    {
+        // UNiDAYS will provide your region specific partnerId
+        var partnerId = "somePartnerId";
+        var signingKey = "someSigningKey";
+
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
+                                    .WithOrderTotal(209.00m)
+                                    .WithItemsUNiDAYSDiscount(13.00m)
+                                    .WithCode("a code")
+                                    .WithItemsTax(34.50m)
+                                    .WithShippingGross(5.00m)
+                                    .WithShippingDiscount(3.00m)
+                                    .WithItemsGross(230.00m)
+                                    .WithItemsOtherDiscount(10.00m)
+                                    .WithUNiDAYSDiscountPercentage(10.00m)
+                                    .WithNewCustomer(true)
+                                    .Build();
+
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(signingKey);
+    }
+}
+```
+
+### Codeless Client
 
 ```csharp
 class Program
@@ -119,7 +205,11 @@ class Program
 }
 ```
 
+### Test Endpoints
+
+
 ### Client To Server
+
 
 ```csharp
 class Program
