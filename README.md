@@ -1,30 +1,67 @@
-# UNiDAYS Dotnet Tracking Helper
+<p align="center">
+  <img src="/assets/UNiDAYS_Logo.png" />
+</p>
+<br/>
 
-![NuGet](https://img.shields.io/nuget/dt/Microsoft.AspNetCore.Mvc.svg)
+![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
 
-This is the .NET library for UNiDAYS redemption tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementation, examples for server - server and client - server integrations.
+# UNiDAYS .NET Direct Tracking
+
+This is the .NET library for UNiDAYS direct tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
+
+## Contents
+
+- [How to use this code?](#how-to-use-this-code)
+- [Contributing](#contributing)
+- [Parameters](#parameters)
+	- [Example Basket](#example-basket)
+
+- [Example Usage](#example-usage)
+    - [Get Server URL _(returns url for server to server request)_](#get-server-request-url)
+    - [Get Tracking URL _(returns url for client to server request)_](#client-to-server)
+    - [Codeless Client _(sends server to server request)_](#codeless-client)
+    - [Test endpoints](#test-endpoint)
+    - [Direct Tracking Details Builder](#direct-tracking-details-builder)
+    - [Codeless Url Verifier](#codeless-url-verifier)
+
+## How to use this code
+
+- Pull the package from [NuGet]().
+- See the example usage section for the type of call you intend to use. Each of these contains an example.
+
+## Contributing
+
+This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself or come across any problems, you can raise them and / or suggest changes in implementation.
+
+If you are interested in contributing to this codebase, please follow the [contributing guidelines](./GUIDELINES/contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
 
 ## Parameters
 
 Here is a description of all the available parameters. Which of these you provide to us are dependant on the agreed contract.
 
-Mandatory parameters are:
-
-* `CustomerId`
-* `TransactionId`
-* `Currency`
-* `Code` or `MemberId`
-
-Note any of the following properties to which the value is unknown should be omitted from calls.
+#### Mandatory parameters are:
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
+| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | String | XaxptFh0sK8Co6pI |
 | TransactionId | A unique ID for the transaction in your system | String | Order123 |
-| MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
 | Currency | The ISO 4217 currency code | String | GBP |
+
+Having **EITHER** Code or MemberID as a parameter is also mandatory:
+
+| Parameter | Description | Data Type | Example |
+|---|---|---|---|
+| Code | The UNiDAYS discount code used | String | ABC123 |
+| MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
+
+### Optional parameters:
+
+Note any of the following properties to which the value is unknown should be omitted from calls. Which of the following values you provide to us will depend on your agreed contract.
+
+| Parameter | Description | Data Type | Example |
+|---|---|---|---|
 | OrderTotal | Total monetary amount paid, formatted to 2 decimal places | Decimal | 209.00 |
 | ItemsUNiDAYSDiscount | Total monetary amount of UNiDAYS discount applied on gross item value `ItemsGross`, formatted to 2 decimal places | Decimal | 13.00 |
-| Code | The UNiDAYS discount code used | String | ABC123 |
 | ItemsTax | Total monetary amount of tax applied to items, formatted to 2 decimal places | Decimal | 34.50
 | ShippingGross | Total monetary amount of shipping cost, before any shipping discount or tax applied, formatted to 2 decimal places | Decimal | 5.00 |
 | ShippingDiscount | Total monetary amount of shipping discount (UNiDAYS or otherwise) applied to the order, formatted to 2 decimal places | Decimal | 3.00 |
@@ -52,20 +89,141 @@ Here is an example basket with the fields relating to UNiDAYS tracking parameter
 
 ## Example Usage
 
-Below are examples of implementing the server to server and client to server integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
+Below are examples of implementing the different types of integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
 
-### Server To Server
+- [Get Server URL _(returns url for server to server request)_](#get-server-url)
+- [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
+- [Codeless Client _(sends server to server request)_](#codeless-client)
+- [Test endpoints](#test-endpoints)
+- [Codeless Url Verifier](#codeless-url-verifier)
+
+### Get Server URL
+
+It is a mandatory requirement that all server URL's are signed. What this means is that you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
+
+#### Making the call
+
+The method to get the URL to make a server-to-server request with is `TrackingServerUrl(key)`. To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
+
+Once the object containing the details you need to send us is created, create a Tracking helper, providing those details as an parameter (`new TrackingHelper(directTrackingDetails)` in the example) and call `.TrackingServerUrl(signingKey)` where signing key is the key provided to you by UNiDAYS
+
+#### Return
+
+A URL will be returned to you, which can then be used to call our API.
+
+#### Example
+
+```csharp
+class Program
+{
+    static void Main()
+    {
+        // UNiDAYS will provide your region specific partnerId
+        var partnerId = "somePartnerId";
+        var signingKey = "someSigningKey";
+
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
+                                    .WithOrderTotal(209.00m)
+                                    .WithItemsUNiDAYSDiscount(13.00m)
+                                    .WithCode("a code")
+                                    .WithItemsTax(34.50m)
+                                    .WithShippingGross(5.00m)
+                                    .WithShippingDiscount(3.00m)
+                                    .WithItemsGross(230.00m)
+                                    .WithItemsOtherDiscount(10.00m)
+                                    .WithUNiDAYSDiscountPercentage(10.00m)
+                                    .WithNewCustomer(true)
+                                    .Build();
+
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingServerUrl(signingKey);
+    }
+}
+```
+
+### Get Pixel URL
+
+This is also known as our client to server integration.
+
+#### Unsigned or Signed
+
+It's an option to create a signed url for your Pixel request. To do this you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
+
+`Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(signingKey);`
+
+instead of
+
+`Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();`
+
+#### Making the call
+
+The method to get the URL to make a server-to-server request with is `TrackingServerUrl()` or  `TrackingServerUrl(key)` if you've chosen to have a signed URL returned. To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
+
+Once the object containing the details you need to send us is created, create a Tracking helper, providing those details as an parameter (`new TrackingHelper(directTrackingDetails)` in the example) and call `.TrackingPixelUrl()` for an unsigned url or  `.TrackingPixelUrl(signingKey)` where signing key is the key provided to you by UNiDAYS for a signed URL
+
+#### Return
+
+A Pixel URL will be returned to you.
+
+#### Example 
+
+The below example is a request for an unsigned Pixel URL.
+
+```csharp
+class Program
+{
+    static void Main()
+    {
+        // UNiDAYS will provide your region specific partnerId
+        var partnerId = "somePartnerId";
+
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
+                                    .WithOrderTotal(209.00m)
+                                    .WithItemsUNiDAYSDiscount(13.00m)
+                                    .WithCode("a code")
+                                    .WithItemsTax(34.50m)
+                                    .WithShippingGross(5.00m)
+                                    .WithShippingDiscount(3.00m)
+                                    .WithItemsGross(230.00m)
+                                    .WithItemsOtherDiscount(10.00m)
+                                    .WithUNiDAYSDiscountPercentage(10.00m)
+                                    .WithNewCustomer(true)
+                                    .Build();
+
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
+    }
+}
+```
+
+### Codeless Client
+
+Calls to the codeless client is similar to [get server url])(#get-server-request-url) but rather than returning a URL, UNiDAYS sends the request and returns a response.
+
+It is a mandatory requirement that all codeless client calls are provided with a key, as the requests UNiDAYS send are signed. 
+
+#### Making the call
+
+To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
+
+Once the object containing the details you need to send us is created, create an instance of the tracking client, providing those details as an parameter, along with the signing key UNiDAYS provided you with (`new TrackingClient(directTrackingDetails, signingKey)` in the example) and call `.SendAsync()`.
+
+#### Return
+
+A HttpResponseMessage is returned
+
+#### Example 
+
+The below example sets up some direct tracking details, calls SendAsync on the client, checks if the status code of the response message is a successful call (2xx) then reads out the content as a string. 
 
 ```csharp
 class Program
 {
     static async Task Main()
     {
-        // UNiDAYS will provide your region specific customerId and your signing key
-        var customerId = "someCustomerId";
+        // UNiDAYS will provide your region specific partnerId and your signing key
+        var partnerId = "somePartnerId";
         var signingKey = "someSigningKey";
 
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction id")
+        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction id")
                                         .WithOrderTotal(209.00m)
                                         .WithItemsUNiDAYSDiscount(13.00m)
                                         .WithCode("a code")
@@ -89,18 +247,50 @@ class Program
 }
 ```
 
-### Client To Server
+### Test Endpoints
+
+UNiDAYS provide test endpoints for each of the above types of call which are as follows:
+
+- `TrackingServerTestUrl(string key)`
+- `TrackingPixelTestUrl()`
+- `TrackingPixelTestUrl(string key)`
+
+These methods add an extra parameter to the URL that is returned to you, or sent for you which looks like this `&Test=True`.
+
+### Direct Tracking Details Builder
+
+The purpose of direct tracking builder is for it to be made intuitive for you to provide the values you need to UNiDAYS as possible. 
+
+The parameters on the builder are the mandatory values
+
+` var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, currency, transactionId)`
+
+There are then a variety of methods available to build up the information you want to send us which can be chained up per the example. These match up to the [parameters](#parameter) at the top of this document
+
+- WithMemberId(`string`)
+- WithCode(`string`)
+- WithOrderTotal(`decimal`)
+- WithItemsUNiDAYSDiscount(`decimal`)
+- WithItemsTax(`decimal`)
+- WithShippingGross(`decimal`)
+- WithShippingDiscount(`decimal`)
+- WithItemsGross(`decimal`)
+- WithItemsOtherDiscount(`decimal`)
+- WithUNiDAYSDiscountPercentage(`decimal`)
+- WithNewCustomer(`bool`)
+
+Only chain the values that you have been asked to provide. You do not need to use all these methods.
+
+The final call to be chained is `.Build()` which creates the object.
+
+#### Example 
 
 ```csharp
 class Program
 {
     static void Main()
     {
-        // UNiDAYS will provide your region specific customerId
-        var customerId = "someCustomerId";
-        var signingKey = "someSigningKey";
-
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(customerId, "GBP", "the transaction")
+        var directTrackingDetails = new DirectTrackingDetailsBuilder("somePartnerId", "GBP", "the transaction")
                                     .WithOrderTotal(209.00m)
                                     .WithItemsUNiDAYSDiscount(13.00m)
                                     .WithCode("a code")
@@ -112,13 +302,23 @@ class Program
                                     .WithUNiDAYSDiscountPercentage(10.00m)
                                     .WithNewCustomer(true)
                                     .Build();
-
-        Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(signingKey);
     }
 }
 ```
 
-### VerifyStudentUrl
+### Codeless Url Verifier
+
+Another option is to verify a codeless URL
+
+#### Making the call
+
+First call the CodelessUrlVerifier with the key provided to you by UNiDAYS (`new CodelessUrlVerifier(key)`). Then call the VerifyUrlParams(ud_s, ud_t, ud_h) method with the values for ud_s, ud_t and ud_h as the parameters.
+
+#### Return
+
+If verified a date is returned, else null is returned
+
+#### Example 
 
 ```csharp
 class Program
