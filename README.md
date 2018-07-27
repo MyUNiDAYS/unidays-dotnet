@@ -17,10 +17,10 @@ This is the .NET library for UNiDAYS direct tracking. This is to be used for cod
 	- [Example Basket](#example-basket)
 
 - [Example Usage](#example-usage)
-    - [Get Server URL _(returns url for server to server request)_](#get-server-request-url)
-    - [Get Tracking URL _(returns url for client to server request)_](#client-to-server)
+    - [Get Server URL _(returns url for server to server request)_](#get-server-url)
+    - [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
     - [Codeless Client _(sends server to server request)_](#codeless-client)
-    - [Test endpoints](#test-endpoint)
+    - [Test endpoints](#test-endpoints)
     - [Direct Tracking Details Builder](#direct-tracking-details-builder)
     - [Codeless Url Verifier](#codeless-url-verifier)
 
@@ -196,7 +196,7 @@ class Program
 
 ### Codeless Client
 
-Calls to the codeless client is similar to [get server url])(#get-server-request-url) but rather than returning a URL, UNiDAYS sends the request and returns a response.
+Calls to the codeless client is similar to [get server url])(#get-server-url) but rather than returning a URL, UNiDAYS sends the request and returns a response.
 
 It is a mandatory requirement that all codeless client calls are provided with a key, as the requests UNiDAYS send are signed. 
 
