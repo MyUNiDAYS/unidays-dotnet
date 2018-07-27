@@ -5,23 +5,26 @@
 
 ![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
 
-# UNiDAYS .NET Direct Tracking
+# UNiDAYS .NET Library
 
-This is the .NET library for UNiDAYS direct tracking. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
+This is the .NET library for integrating with UNiDAYS. This is to be used for coded and codeless integrations. The following documentation provides descriptions of the implementations and examples.
 
 ## Contents
 
 - [How to use this code?](#how-to-use-this-code)
 - [Contributing](#contributing)
+
+- [**Direct Tracking**](#direct-tracking)
 - [Parameters](#parameters)
 	- [Example Basket](#example-basket)
-
 - [Example Usage](#example-usage)
     - [Get Server URL _(returns url for server to server request)_](#get-server-url)
     - [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
-    - [Codeless Client _(sends server to server request)_](#codeless-client)
+    - [Tracking Client _(sends server to server request)_](#tracking-client)
     - [Test endpoints](#test-endpoints)
     - [Direct Tracking Details Builder](#direct-tracking-details-builder)
+
+- [**Codeless API**](#codeless-api)
     - [Codeless Url Verifier](#codeless-url-verifier)
 
 ## How to use this code
@@ -33,28 +36,30 @@ This is the .NET library for UNiDAYS direct tracking. This is to be used for cod
 
 This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself or come across any problems, you can raise them and / or suggest changes in implementation.
 
-If you are interested in contributing to this codebase, please follow the [contributing guidelines](./GUIDELINES/contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
+If you are interested in contributing to this codebase, please follow the [contributing guidelines](./contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
 
-## Parameters
+## Direct Tracking
+
+### Parameters
 
 Here is a description of all the available parameters. Which of these you provide to us are dependant on the agreed contract.
 
-#### Mandatory parameters are:
+### Mandatory Parameters
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
-| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | String | XaxptFh0sK8Co6pI |
+| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | String | XaxptFh0sK8Co6pI== |
 | TransactionId | A unique ID for the transaction in your system | String | Order123 |
 | Currency | The ISO 4217 currency code | String | GBP |
 
-Having **EITHER** Code or MemberID as a parameter is also mandatory:
+Having **either** Code or MemberID as a parameter is also mandatory:
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
 | Code | The UNiDAYS discount code used | String | ABC123 |
 | MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
 
-### Optional parameters:
+### Optional Parameters
 
 Note any of the following properties to which the value is unknown should be omitted from calls. Which of the following values you provide to us will depend on your agreed contract.
 
@@ -93,9 +98,8 @@ Below are examples of implementing the different types of integrations. These ex
 
 - [Get Server URL _(returns url for server to server request)_](#get-server-url)
 - [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
-- [Codeless Client _(sends server to server request)_](#codeless-client)
+- [Tracking Client _(sends server to server request)_](#tracking-client)
 - [Test endpoints](#test-endpoints)
-- [Codeless Url Verifier](#codeless-url-verifier)
 
 ### Get Server URL
 
@@ -118,7 +122,7 @@ class Program
 {
     static void Main()
     {
-        // UNiDAYS will provide your region specific partnerId
+        // UNiDAYS will provide your partnerId
         var partnerId = "somePartnerId";
         var signingKey = "someSigningKey";
 
@@ -164,7 +168,7 @@ Once the object containing the details you need to send us is created, create a 
 
 A Pixel URL will be returned to you.
 
-#### Example 
+#### Example
 
 The below example is a request for an unsigned Pixel URL.
 
@@ -173,7 +177,7 @@ class Program
 {
     static void Main()
     {
-        // UNiDAYS will provide your region specific partnerId
+        // UNiDAYS will provide your partnerId
         var partnerId = "somePartnerId";
 
         var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
@@ -194,11 +198,11 @@ class Program
 }
 ```
 
-### Codeless Client
+### Tracking Client
 
-Calls to the codeless client is similar to [get server url])(#get-server-url) but rather than returning a URL, UNiDAYS sends the request and returns a response.
+Calls to the Tracking Client are similar to [get server url](#get-server-url) but rather than returning a URL, UNiDAYS sends the request and returns a response.
 
-It is a mandatory requirement that all codeless client calls are provided with a key, as the requests UNiDAYS send are signed. 
+It is a mandatory requirement that all Tracking Client calls are provided with a key, as the requests UNiDAYS send are signed.
 
 #### Making the call
 
@@ -210,16 +214,16 @@ Once the object containing the details you need to send us is created, create an
 
 A HttpResponseMessage is returned
 
-#### Example 
+#### Example
 
-The below example sets up some direct tracking details, calls SendAsync on the client, checks if the status code of the response message is a successful call (2xx) then reads out the content as a string. 
+The below example sets up some direct tracking details, calls SendAsync on the client, checks if the status code of the response message is a successful call (2xx) then reads out the content as a string.
 
 ```csharp
 class Program
 {
     static async Task Main()
     {
-        // UNiDAYS will provide your region specific partnerId and your signing key
+        // UNiDAYS will provide your partnerId and your signing key
         var partnerId = "somePartnerId";
         var signingKey = "someSigningKey";
 
@@ -259,11 +263,11 @@ These methods add an extra parameter to the URL that is returned to you, or sent
 
 ### Direct Tracking Details Builder
 
-The purpose of direct tracking builder is for it to be made intuitive for you to provide the values you need to UNiDAYS as possible. 
+The purpose of direct tracking builder is for it to be made intuitive for you to provide the values you need to UNiDAYS as possible.
 
 The parameters on the builder are the mandatory values
 
-` var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, currency, transactionId)`
+`var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, currency, transactionId)`
 
 There are then a variety of methods available to build up the information you want to send us which can be chained up per the example. These match up to the [parameters](#parameter) at the top of this document
 
@@ -279,11 +283,11 @@ There are then a variety of methods available to build up the information you wa
 - WithUNiDAYSDiscountPercentage(`decimal`)
 - WithNewCustomer(`bool`)
 
-Only chain the values that you have been asked to provide. You do not need to use all these methods.
+Only chain the values that you have been asked to provide. You do not need to use all of these methods.
 
 The final call to be chained is `.Build()` which creates the object.
 
-#### Example 
+#### Example
 
 ```csharp
 class Program
@@ -306,19 +310,27 @@ class Program
 }
 ```
 
+## Codeless API
+
+This integration is used if you have agreed to provide UNiDAYS Members with a "codeless" experience. In this case, we will direct signed traffic from our site to yours.
+
 ### Codeless Url Verifier
 
-Another option is to verify a codeless URL
+This is the method which will assist you with parsing and validating the signed traffic we direct towards your site.
 
-#### Making the call
+### Making the call
 
-First call the CodelessUrlVerifier with the key provided to you by UNiDAYS (`new CodelessUrlVerifier(key)`). Then call the VerifyUrlParams(ud_s, ud_t, ud_h) method with the values for ud_s, ud_t and ud_h as the parameters.
+First call the CodelessUrlVerifier with the key provided to you by UNiDAYS (`new CodelessUrlVerifier(key)`). Then call the `VerifyUrlParams(ud_s, ud_t, ud_h)` method with the values for ud_s, ud_t and ud_h as the arguments.
+
+- `ud_s` = The Member ID for the UNiDAYS member.
+- `ud_t` = A timestamp for the request
+- `ud_h` = A SHA512 hash of the above parameters.
 
 #### Return
 
-If verified a date is returned, else null is returned
+If the method successfully validates the hash of the incoming request, a DateTime for the request will be returned; else null will be returned.
 
-#### Example 
+#### Example
 
 ```csharp
 class Program
