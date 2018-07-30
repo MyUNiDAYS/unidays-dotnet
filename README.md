@@ -4,6 +4,7 @@
 <br/>
 
 ![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
+[![Build status](https://ci.appveyor.com/api/projects/status/xjfdbra2ea85qd27?svg=true)](https://ci.appveyor.com/project/UNiDAYS/unidays-dotnet)
 
 # UNiDAYS .NET Library
 
