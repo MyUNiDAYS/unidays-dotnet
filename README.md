@@ -12,9 +12,9 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
 
 ## Contents
 
-#### [How to use this code?](#how-to-use-this-code)
+[**How to use this code?**](#how-to-use-this-code)
 
-#### [Direct Tracking](#direct-tracking)
+[**Direct Tracking**](#direct-tracking)
 - [Parameters](#parameters)
 	- [Example Basket](#example-basket)
 - [Example Usage](#example-usage)
@@ -24,11 +24,11 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
     - [Test endpoints](#test-endpoints)
     - [Direct Tracking Details Builder](#direct-tracking-details-builder)
 
-#### [Codeless Verification](#codeless-verification)
+[**Codeless Verification**](#codeless-verification)
 - [Codeless API](#codeless-api)
     - [Codeless Url Verifier](#codeless-url-verifier)
 
-#### [Contributing](#contributing)
+[**Contributing****](#contributing)
 
 ## How to use this code
 
