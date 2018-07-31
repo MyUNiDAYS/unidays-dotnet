@@ -13,9 +13,8 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
 ## Contents
 
 - [How to use this code?](#how-to-use-this-code)
-- [Contributing](#contributing)
 
-- [**Direct Tracking**](#direct-tracking)
+#### [Direct Tracking](#direct-tracking)
 - [Parameters](#parameters)
 	- [Example Basket](#example-basket)
 - [Example Usage](#example-usage)
@@ -25,19 +24,16 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
     - [Test endpoints](#test-endpoints)
     - [Direct Tracking Details Builder](#direct-tracking-details-builder)
 
-- [**Codeless API**](#codeless-api)
+#### [Codeless Verification](#codeless-verification)
+- [Codeless API](#codeless-api)
     - [Codeless Url Verifier](#codeless-url-verifier)
+
+#### [Contributing](#contributing)
 
 ## How to use this code
 
 - Pull the package from [NuGet]().
 - See the example usage section for the type of call you intend to use. Each of these contains an example.
-
-## Contributing
-
-This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself or come across any problems, you can raise them and / or suggest changes in implementation.
-
-If you are interested in contributing to this codebase, please follow the [contributing guidelines](./contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
 
 ## Direct Tracking
 
@@ -95,7 +91,7 @@ Here is an example basket with the fields relating to UNiDAYS tracking parameter
 
 ## Example Usage
 
-Below are examples of implementing the different types of integrations. These examples cover both coded and codeless integrations and include all optional parameters. They are intended as a guideline for implementation.
+Below are the three options for implementing your integration. These examples cover both coded and codeless integrations (see the live analytics PDF for details) and include all optional parameters. They are intended as a guideline for implementation.
 
 - [Get Server URL _(returns url for server to server request)_](#get-server-url)
 - [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
@@ -311,13 +307,11 @@ class Program
 }
 ```
 
-## Codeless API
+## Codeless Verification
 
-This integration is used if you have agreed to provide UNiDAYS Members with a "codeless" experience. In this case, we will direct signed traffic from our site to yours.
+If you have agreed to provide UNiDAYS Members with a codeless experience, alongside direct tracking, you will also need to implement the 'Codeless API' which will assist you with parsing and validating the signed traffic we direct towards your site.
 
-### Codeless Url Verifier
-
-This is the method which will assist you with parsing and validating the signed traffic we direct towards your site.
+### Codeless API
 
 ### Making the call
 
@@ -351,3 +345,9 @@ class Program
     }
 }
 ```
+
+## Contributing
+
+This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself or come across any problems, you can raise them and / or suggest changes in implementation.
+
+If you are interested in contributing to this codebase, please follow the [contributing guidelines](./contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
