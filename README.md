@@ -317,9 +317,11 @@ If you have agreed to provide UNiDAYS Members with a codeless experience, alongs
 
 First call the CodelessUrlVerifier with the key provided to you by UNiDAYS (`new CodelessUrlVerifier(key)`). Then call the `VerifyUrlParams(ud_s, ud_t, ud_h)` method with the values for ud_s, ud_t and ud_h as the arguments.
 
-- `ud_s` = The Member ID for the UNiDAYS member.
-- `ud_t` = A timestamp for the request
-- `ud_h` = A SHA512 hash of the above parameters.
+| Parameter | Description | Data Type | Max Length | Example |
+|---|---|---|---|---|
+| ud_s | UNiDAYS verified student ID | String | 256 chars | Do/faqh330SGgCnn4t3X4g== |
+| ud_t | Timestamp for the request | String | 64 bits | 1375349460 |
+| ud_h | Hash signature of the other two parameters | Base64 String | GBP | o9Cg3q2eVElZxYlJsEAQ== |
 
 #### Return
 
