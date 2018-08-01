@@ -7,11 +7,11 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenRequestingAPixelUrlWithTestModeSet
+        public class WhenRequestingASignedScriptUrlWithAllParamsSet
         {
             private readonly Uri url;
 
-            public WhenRequestingAPixelUrlWithTestModeSet()
+            public WhenRequestingASignedScriptUrlWithAllParamsSet()
             {
                 var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction")
                                             .WithOrderTotal(209.00m)
@@ -26,7 +26,7 @@ namespace Unidays.Tests.TrackingHelperTests
                                             .WithNewCustomer(true)
                                             .Build();
 
-                url = new TrackingHelper(directTrackingDetails).TrackingPixelTestUrl();
+                url = new TrackingHelper(directTrackingDetails).TrackingScriptUrl("AAAAAA==");
             }
 
             [Fact]
@@ -42,9 +42,9 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Fact]
-            public void ThePathShouldBePerksRedemptionV1()
+            public void ThePathShouldBeV1_2RedemptionJs()
             {
-                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/gif");
+                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/js");
             }
 
             [Theory]
@@ -61,8 +61,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "10.00")]
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
             [InlineData("NewCustomer", "True")]
-            [InlineData("Signature", null)]
-            [InlineData("Test", "True")]
+            [InlineData("Signature", "ubCLOIdBw1LL9KN6B0zFTU8K5+G2WSm6S5hXmWYV9Kv/w5LQAJaUq9hhkt1A4q5BssurypqH4IH/kjmeD5TlwQ==")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

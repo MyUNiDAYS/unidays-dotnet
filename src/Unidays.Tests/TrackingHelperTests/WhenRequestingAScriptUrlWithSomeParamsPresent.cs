@@ -7,14 +7,14 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenRequestingAPixelUrlWithSomeParamsPresent
+        public class WhenRequestingAScriptUrlWithSomeParamsPresent
         {
             private readonly Uri url;
 
-            public WhenRequestingAPixelUrlWithSomeParamsPresent()
+            public WhenRequestingAScriptUrlWithSomeParamsPresent()
             {
                 var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner", "GBP", "the transaction").Build();
-                url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
+                url = new TrackingHelper(directTrackingDetails).TrackingScriptUrl();
             }
 
              [Fact]
@@ -30,9 +30,9 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Fact]
-            public void ThePathShouldBePerksRedemptionV1()
+            public void ThePathShouldBeV1_2RedemptionJs()
             {
-                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/gif");
+                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/js");
             }
 
             [Theory]

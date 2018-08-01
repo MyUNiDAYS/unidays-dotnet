@@ -7,11 +7,11 @@ namespace Unidays.Tests.TrackingHelperTests
 {
     public partial class GivenATrackingHelper
     {
-        public class WhenRequestingAPixelUrlWithAllParamsSet
+        public class WhenRequestingAScriptUrlWithTestModeSet
         {
             private readonly Uri url;
 
-            public WhenRequestingAPixelUrlWithAllParamsSet()
+            public WhenRequestingAScriptUrlWithTestModeSet()
             {
                 var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction")
                                             .WithOrderTotal(209.00m)
@@ -26,7 +26,7 @@ namespace Unidays.Tests.TrackingHelperTests
                                             .WithNewCustomer(true)
                                             .Build();
 
-                url = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
+                url = new TrackingHelper(directTrackingDetails).TrackingScriptTestUrl();
             }
 
             [Fact]
@@ -42,9 +42,9 @@ namespace Unidays.Tests.TrackingHelperTests
             }
 
             [Fact]
-            public void ThePathShouldBePerksRedemptionV1()
+            public void ThePathShouldBeV1_2RedemptionJs()
             {
-                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/gif");
+                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/js");
             }
 
             [Theory]
@@ -62,6 +62,7 @@ namespace Unidays.Tests.TrackingHelperTests
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
             [InlineData("NewCustomer", "True")]
             [InlineData("Signature", null)]
+            [InlineData("Test", "True")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

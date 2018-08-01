@@ -45,39 +45,39 @@ namespace Unidays
         /// <summary>
         /// Generates the Redemption Tracking URL
         /// </summary>
-        /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
-        public Uri TrackingPixelUrl()
+        /// <returns>The URL to be placed inside a &lt;script /&gt; element in your receipt page. A JSON body will be returned detailing errors, if any</returns>
+        public Uri TrackingScriptUrl()
         {
-            return new UriGenerator(false).GeneratePixelUrl(_directTrackingDetails);
+            return new UriGenerator(false).GenerateScriptUrl(_directTrackingDetails);
         }
 
         /// <summary>
         /// Generates the Redemption Tracking URL
         /// </summary>
         /// <param name="key">The key for the signature</param>
-        /// <returns>The URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
-        public Uri TrackingPixelUrl(string key)
+        /// <returns>The URL to be placed inside a &lt;script /&gt; element in your receipt page. A JSON body will be returned detailing errors, if any</returns>
+        public Uri TrackingScriptUrl(string key)
         {
-            return new UriGenerator(false).GeneratePixelUrl(key, _directTrackingDetails);
+            return new UriGenerator(false).GenerateScriptUrl(key, _directTrackingDetails);
         }
 
         /// <summary>
         /// Generates the Redemption Tracking URL in Test Mode
         /// </summary>
-        /// <returns>The Test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
-        public Uri TrackingPixelTestUrl()
+        /// <returns>The URL to be placed inside a &lt;script /&gt; element in your receipt page. A JSON body will be returned detailing errors, if any</returns>
+        public Uri TrackingScriptTestUrl()
         {
-            return new UriGenerator(true).GeneratePixelUrl(_directTrackingDetails);
+            return new UriGenerator(true).GenerateScriptUrl(_directTrackingDetails);
         }
 
         /// <summary>
         /// Generates the Redemption Tracking URL in Test Mode
         /// </summary>
         /// <param name="key">The key for the signature</param>
-        /// <returns>The test URL to be placed inside an &lt;img /&gt; element in your receipt page. The image returned is a 1x1px transparent gif</returns>
-        public Uri TrackingPixelTestUrl(string key)
+        /// <returns>The URL to be placed inside a &lt;script /&gt; element in your receipt page. A JSON body will be returned detailing errors, if any</returns>
+        public Uri TrackingScriptTestUrl(string key)
         {
-            return new UriGenerator(true).GeneratePixelUrl(key, _directTrackingDetails);
+            return new UriGenerator(true).GenerateScriptUrl(key, _directTrackingDetails);
         }
     }
 }
