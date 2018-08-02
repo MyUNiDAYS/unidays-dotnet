@@ -10,7 +10,7 @@
 
   skip_branch_with_pr: true
 
-  version: 0.1.0
+  version: 0.1.{build}
    
   init:
     - cmd: git config --global core.autocrlf true
@@ -28,7 +28,7 @@
 
   build_script:
     - cmd: dotnet build ./src/Unidays/Unidays.csproj -c Release
-    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.1.0
+    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.1.{build}
 
   after_build:
     - ps: nuget pack -version "$($env:appveyor_build_version)"
@@ -58,7 +58,7 @@
 
   skip_branch_with_pr: true
 
-  version: 0.1.0.{build}-{branch}
+  version: 0.1.{build}-{branch}
    
   init:
     - cmd: git config --global core.autocrlf true
