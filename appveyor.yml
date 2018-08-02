@@ -18,9 +18,9 @@
   before_build:
     - cmd: dotnet --version
     - cmd: dotnet restore ./src/Unidays/Unidays.csproj --verbosity m
-  
-  test_script:
     - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
+
+  test_script:
     - cmd: cd ./src/Unidays.Tests/
     - cmd: dotnet test
 
@@ -63,9 +63,9 @@
   before_build:
     - cmd: dotnet --version
     - cmd: dotnet restore ./src/Unidays/Unidays.csproj --verbosity m
+    - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
 
   test_script:
-    - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
     - cmd: cd ./src/Unidays.Tests/
     - cmd: dotnet test
 
