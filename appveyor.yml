@@ -46,7 +46,7 @@
   on_failure:
     - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
 
-# everything except master
+# all branches except master
 -
   branches:
     except:
@@ -57,7 +57,7 @@
   skip_tags: true
 
   skip_branch_with_pr: true
-  
+
   version: 0.1.0.{build}-{branch}
    
   init:
