@@ -8,7 +8,7 @@
       
   skip_tags: true
 
-  version: 1.0.0
+  version: 0.1.0
    
   init:
     - cmd: git config --global core.autocrlf true
@@ -26,7 +26,7 @@
 
   build_script:
     - cmd: dotnet build ./src/Unidays/Unidays.csproj -c Release
-    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=1.0.{build}
+    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.1.0
 
 
   after_build:
@@ -55,7 +55,7 @@
 
   skip_tags: true
 
-  version: 1.0.0.{build}-{branch}
+  version: 0.1.0.{build}-{branch}
    
   init:
     - cmd: git config --global core.autocrlf true
