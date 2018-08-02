@@ -28,7 +28,7 @@
 
   build_script:
     - cmd: dotnet build ./src/Unidays/Unidays.csproj -c Release
-    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.2.0.%appveyor_build_version%
+    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.2.0.%APPVEYOR_BUILD_VERSION%
 
   artifacts:
     - path: '*.nupkg'
