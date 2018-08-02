@@ -6,7 +6,7 @@ namespace Unidays.Internal
     internal class UriGenerator
     {
         private const string TrackingUrl = "https://tracking.myunidays.com/v1.2/redemption";
-        private const string TrackingGifUrl = TrackingUrl + "/gif";
+        private const string TrackingScriptUrl = TrackingUrl + "/js";
         private readonly bool generateTestUris;
 
         public UriGenerator(bool generateTestUris)
@@ -14,17 +14,17 @@ namespace Unidays.Internal
             this.generateTestUris = generateTestUris;
         }
 
-        public Uri GeneratePixelUrl(DirectTrackingDetails directTrackingDetails) => new Uri(new StringBuilder()
+        public Uri GenerateScriptUrl(DirectTrackingDetails directTrackingDetails) => new Uri(new StringBuilder()
             .AppendTrackingParameters(directTrackingDetails)
             .AppendTestParameter(generateTestUris)
-            .Insert(0, TrackingGifUrl)
+            .Insert(0, TrackingScriptUrl)
             .ToString());
 
-        public Uri GeneratePixelUrl(string key, DirectTrackingDetails directTrackingDetails) => new Uri(new StringBuilder()
+        public Uri GenerateScriptUrl(string key, DirectTrackingDetails directTrackingDetails) => new Uri(new StringBuilder()
             .AppendTrackingParameters(directTrackingDetails)
             .AppendSignature(key)
             .AppendTestParameter(generateTestUris)
-            .Insert(0, TrackingGifUrl)
+            .Insert(0, TrackingScriptUrl)
             .ToString());
 
         public Uri GenerateServerUrl(string key, DirectTrackingDetails directTrackingDetails) => new Uri(new StringBuilder()

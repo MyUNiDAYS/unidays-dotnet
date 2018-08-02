@@ -19,7 +19,7 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
 	- [Example Basket](#example-basket)
 - [Example Usage](#example-usage)
     - [Get Server URL _(returns url for server to server request)_](#get-server-url)
-    - [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
+    - [Get Script URL _(returns url for client to server request)_](#get-script-url)
     - [Tracking Client _(sends server to server request)_](#tracking-client)
     - [Test endpoints](#test-endpoints)
     - [Direct Tracking Details Builder](#direct-tracking-details-builder)
@@ -94,7 +94,7 @@ Here is an example basket with the fields relating to UNiDAYS tracking parameter
 Below are the three options for implementing your integration. These examples cover both coded and codeless integrations (see the live analytics PDF for details) and include all optional parameters. They are intended as a guideline for implementation.
 
 - [Get Server URL _(returns url for server to server request)_](#get-server-url)
-- [Get Pixel URL _(returns url for client to server request)_](#get-pixel-url)
+- [Get Script URL _(returns url for client to server request)_](#get-script-url)
 - [Tracking Client _(sends server to server request)_](#tracking-client)
 - [Test endpoints](#test-endpoints)
 
@@ -141,33 +141,33 @@ class Program
 }
 ```
 
-### Get Pixel URL
+### Get Script URL
 
 This is also known as our client to server integration.
 
 #### Unsigned or Signed
 
-It's an option to create a signed url for your Pixel request. To do this you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
+It's an option to create a signed url for your Script request. To do this you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
 
-`Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl(signingKey);`
+`Uri uri = new TrackingHelper(directTrackingDetails).TrackingScriptUrl(signingKey);`
 
 instead of
 
-`Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();`
+`Uri uri = new TrackingHelper(directTrackingDetails).TrackingScriptUrl();`
 
 #### Making the call
 
-The method to get the URL to make a server-to-server request with is `TrackingServerUrl()` or  `TrackingServerUrl(key)` if you've chosen to have a signed URL returned. To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
+The method to get the URL to make a client-to-server request with is `TrackingScriptUrl()` or  `TrackingScriptUrl(key)` if you've chosen to have a signed URL returned. To implement this method you first need to use the `DirectTrackingDetailsBuilder` to create a direct tracking object with the properties you want to send across to us. More details about this builder can be found [here](#direct-tracking-details-builder).
 
-Once the object containing the details you need to send us is created, create a Tracking helper, providing those details as an parameter (`new TrackingHelper(directTrackingDetails)` in the example) and call `.TrackingPixelUrl()` for an unsigned url or  `.TrackingPixelUrl(signingKey)` where signing key is the key provided to you by UNiDAYS for a signed URL
+Once the object containing the details you need to send us is created, create a Tracking helper, providing those details as an parameter (`new TrackingHelper(directTrackingDetails)` in the example) and call `.TrackingScriptUrl()` for an unsigned url or `.TrackingScriptUrl(key)` where signing key is the key provided to you by UNiDAYS for a signed URL.
 
 #### Return
 
-A Pixel URL will be returned to you.
+A URL will be returned to you which can be placed within a script element on your post-payment/order-success page to call the API.
 
 #### Example
 
-The below example is a request for an unsigned Pixel URL.
+The below example is a request for an unsigned Script URL.
 
 ```csharp
 class Program
@@ -190,7 +190,7 @@ class Program
                                     .WithNewCustomer(true)
                                     .Build();
 
-        Uri uri = new TrackingHelper(directTrackingDetails).TrackingPixelUrl();
+        Uri uri = new TrackingHelper(directTrackingDetails).TrackingScriptUrl();
     }
 }
 ```
@@ -253,8 +253,8 @@ class Program
 UNiDAYS provide test endpoints for each of the above types of call which are as follows:
 
 - `TrackingServerTestUrl(string key)`
-- `TrackingPixelTestUrl()`
-- `TrackingPixelTestUrl(string key)`
+- `TrackingScriptTestUrl()`
+- `TrackingScriptTestUrl(string key)`
 
 These methods add an extra parameter to the URL that is returned to you, or sent for you which looks like this `&Test=True`.
 
