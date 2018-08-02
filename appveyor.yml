@@ -1,32 +1,79 @@
-image: Visual Studio 2017
-version: 1.0.{build}-{branch}
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.cs'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-configuration: Release
-branches:
-  only:
-    - master
-skip_tags: true
-max_jobs: 1
-init:
-  - git config --global core.autocrlf true
-clone_depth: 1
-artifacts:
-  - path: '*.nupkg'
-#------ tests configuration ------#
-test_script:
-  - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
-  - cmd: cd ./src/Unidays.Tests/
-  - cmd: dotnet test
-#---- deployment configuration ----#
-deploy:
-  provider: NuGet
-  api_key:
-    secure: {NUGET_KEY}
-  on:
-    branch:
+# master
+-
+  branches:
+    only:
       - master
+
+  image: Visual Studio 2017
+      
+  skip_tags: true
+
+  skip_branch_with_pr: true
+
+  version: 0.1.0
+   
+  init:
+    - cmd: git config --global core.autocrlf true
+
+  clone_depth: 1
+  
+  before_build:
+    - cmd: dotnet --version
+    - cmd: dotnet restore ./src/Unidays/Unidays.csproj --verbosity m
+    - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
+
+  test_script:
+    - cmd: cd ./src/Unidays.Tests/
+    - cmd: dotnet test
+
+  build_script:
+    - cmd: dotnet build ./src/Unidays/Unidays.csproj -c Release
+    - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.1.0
+
+  after_build:
+    - ps: nuget pack -version "$($env:appveyor_build_version)"
+
+  artifacts:
+    - path: 'src/Unidays/bin/Release/*.nupkg'
+      name: NuGet
+  
+  deploy:
+    - provider: NuGet
+      api_key:
+        secure: $env:nuget_key
+      artifact: /.*\.nupkg/
+   
+  on_failure:
+    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
+
+# all except master
+-
+  branches:
+    except:
+      - master
+
+  image: Visual Studio 2017
+
+  skip_tags: true
+
+  skip_branch_with_pr: true
+
+  version: 0.1.0.{build}-{branch}
+   
+  init:
+    - cmd: git config --global core.autocrlf true
+
+  before_build:
+    - cmd: dotnet --version
+    - cmd: dotnet restore ./src/Unidays/Unidays.csproj --verbosity m
+    - cmd: dotnet restore ./src/Unidays.Tests/Unidays.Tests.csproj --verbosity m
+
+  test_script:
+    - cmd: cd ./src/Unidays.Tests/
+    - cmd: dotnet test
+
+  artifacts:
+    - path: '*.nupkg'
+   
+  on_failure:
+    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
