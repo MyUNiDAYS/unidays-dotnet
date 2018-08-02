@@ -30,11 +30,8 @@
     - cmd: dotnet build ./src/Unidays/Unidays.csproj -c Release
     - cmd: dotnet pack ./src/Unidays/Unidays.csproj -c Release /property:PackageVersion=0.2.{build}
 
-  after_build:
-    - ps: nuget pack -version "$($env:appveyor_build_version)"
-
   artifacts:
-    - path: 'src/Unidays/bin/Release/*.nupkg'
+    - path: '*.nupkg'
       name: NuGet
   
   deploy:
@@ -71,9 +68,6 @@
   test_script:
     - cmd: cd ./src/Unidays.Tests/
     - cmd: dotnet test
-
-  artifacts:
-    - path: '*.nupkg'
    
   on_failure:
     - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
