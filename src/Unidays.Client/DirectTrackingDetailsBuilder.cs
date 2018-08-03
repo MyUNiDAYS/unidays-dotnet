@@ -1,4 +1,4 @@
-namespace Unidays
+namespace Unidays.Client
 {
     public class DirectTrackingDetailsBuilder
     {

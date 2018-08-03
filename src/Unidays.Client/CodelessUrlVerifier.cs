@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace Unidays
+namespace Unidays.Client
 {
     /// <summary>
     /// UNiDAYS SDK - Codeless API Helper Class
