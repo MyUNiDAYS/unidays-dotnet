@@ -18,7 +18,7 @@ namespace Unidays.Client.Internal
                 .Append(HttpUtility.UrlEncode(directTrackingDetails.Currency));
 
             if (!string.IsNullOrEmpty(directTrackingDetails.MemberId))
-                builder.Append("&MemberId=").AppendFormat("{0:0.00}", directTrackingDetails.MemberId);
+                builder.Append("&MemberId=").AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.MemberId));
 
             if (!string.IsNullOrEmpty(directTrackingDetails.Code))
                 builder.Append("&Code=").Append(HttpUtility.UrlEncode(directTrackingDetails.Code));
