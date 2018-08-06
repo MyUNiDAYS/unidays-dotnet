@@ -3,8 +3,6 @@
 </p>
 <br/>
 
-
-![NuGet](https://img.shields.io/nuget/v/Unidays.Client.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/xjfdbra2ea85qd27?svg=true)](https://ci.appveyor.com/project/UNiDAYS/unidays-dotnet)
 
 # UNiDAYS .NET Library
@@ -57,7 +55,7 @@ Having **either** Code or MemberID as a parameter is also mandatory:
 | Code | The UNiDAYS discount code used | String | ABC123 |
 | MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
 
-### Optional Parameters
+### Additional Parameters
 
 Note any of the following properties to which the value is unknown should be omitted from calls. Which of the following values you provide to us will depend on your agreed contract.
 
