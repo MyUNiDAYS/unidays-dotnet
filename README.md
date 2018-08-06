@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="/assets/UNiDAYS_Logo.png" />
+  <img src="./assets/UNiDAYS_Logo.png" />
 </p>
 <br/>
 
-![Unidays NuGet Badge](https://img.shields.io/nuget/1.2/unidays-dotnet.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/xjfdbra2ea85qd27?svg=true)](https://ci.appveyor.com/project/UNiDAYS/unidays-dotnet)
 
 # UNiDAYS .NET Library
@@ -32,7 +31,7 @@ This is the .NET library for integrating with UNiDAYS. This is to be used for co
 
 ## How to use this code
 
-- Pull the package from [NuGet]().
+- Pull the package from [NuGet](https://www.nuget.org/packages/Unidays.Client/). The commands for doing this are displayed on the Nuget page. Please use the most recent version.
 - See the example usage section for the type of call you intend to use. Each of these contains an example.
 
 ## Direct Tracking
@@ -56,7 +55,7 @@ Having **either** Code or MemberID as a parameter is also mandatory:
 | Code | The UNiDAYS discount code used | String | ABC123 |
 | MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
 
-### Optional Parameters
+### Additional Parameters
 
 Note any of the following properties to which the value is unknown should be omitted from calls. Which of the following values you provide to us will depend on your agreed contract.
 
@@ -100,7 +99,9 @@ Below are the three options for implementing your integration. These examples co
 
 ### Get Server URL
 
-It is a mandatory requirement that all server URL's are signed. What this means is that you will need to send us the signing key UNiDAYS provide you with as one of the parameters.
+This method returns a URL which you can use to call our API.
+
+It is a mandatory requirement that all server URL's are signed. What this means is that you will need to send us the signing key UNiDAYS provide you with as one of the parameters. The signing key is a Base-64 string.
 
 #### Making the call
 
@@ -115,15 +116,19 @@ A URL will be returned to you, which can then be used to call our API.
 #### Example
 
 ```csharp
-class Program
-{
-    static void Main()
-    {
-        // UNiDAYS will provide your partnerId
-        var partnerId = "somePartnerId";
-        var signingKey = "someSigningKey";
+using Unidays.Client;
 
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
+namespace test
+{
+    class Program
+    {
+        static void Main()
+        {
+        // UNiDAYS will provide your partnerId and signingKey
+            var partnerId = "somePartnerId";
+            var signingKey = "someSigningKey";
+
+            var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
                                     .WithOrderTotal(209.00m)
                                     .WithItemsUNiDAYSDiscount(13.00m)
                                     .WithCode("a code")
@@ -136,14 +141,15 @@ class Program
                                     .WithNewCustomer(true)
                                     .Build();
 
-        Uri uri = new TrackingHelper(directTrackingDetails).TrackingServerUrl(signingKey);
+            Uri uri = new TrackingHelper(directTrackingDetails).TrackingServerUrl   (signingKey);
+        }
     }
 }
 ```
 
 ### Get Script URL
 
-This is also known as our client to server integration.
+This is also known as our client to server integration. This method returns a URL which can be placed within a script element on your post-payment/order-success page to call the API.
 
 #### Unsigned or Signed
 
@@ -170,27 +176,32 @@ A URL will be returned to you which can be placed within a script element on you
 The below example is a request for an unsigned Script URL.
 
 ```csharp
-class Program
+using Unidays.Client;
+
+namespace test
 {
-    static void Main()
+    class Program
     {
-        // UNiDAYS will provide your partnerId
-        var partnerId = "somePartnerId";
+        static void Main()
+        {
+            // UNiDAYS will provide your partnerId
+            var partnerId = "somePartnerId";
 
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction")
-                                    .WithOrderTotal(209.00m)
-                                    .WithItemsUNiDAYSDiscount(13.00m)
-                                    .WithCode("a code")
-                                    .WithItemsTax(34.50m)
-                                    .WithShippingGross(5.00m)
-                                    .WithShippingDiscount(3.00m)
-                                    .WithItemsGross(230.00m)
-                                    .WithItemsOtherDiscount(10.00m)
-                                    .WithUNiDAYSDiscountPercentage(10.00m)
-                                    .WithNewCustomer(true)
-                                    .Build();
+            var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the     transaction")
+                                        .WithOrderTotal(209.00m)
+                                        .WithItemsUNiDAYSDiscount(13.00m)
+                                        .WithCode("a code")
+                                        .WithItemsTax(34.50m)
+                                        .WithShippingGross(5.00m)
+                                        .WithShippingDiscount(3.00m)
+                                        .WithItemsGross(230.00m)
+                                        .WithItemsOtherDiscount(10.00m)
+                                        .WithUNiDAYSDiscountPercentage(10.00m)
+                                        .WithNewCustomer(true)
+                                        .Build();
 
-        Uri uri = new TrackingHelper(directTrackingDetails).TrackingScriptUrl();
+            Uri uri = new TrackingHelper(directTrackingDetails).TrackingScriptUrl();
+        }
     }
 }
 ```
@@ -216,33 +227,38 @@ A HttpResponseMessage is returned
 The below example sets up some direct tracking details, calls SendAsync on the client, checks if the status code of the response message is a successful call (2xx) then reads out the content as a string.
 
 ```csharp
-class Program
+using Unidays.Client;
+
+namespace test
 {
-    static async Task Main()
+    class Program
     {
-        // UNiDAYS will provide your partnerId and your signing key
-        var partnerId = "somePartnerId";
-        var signingKey = "someSigningKey";
-
-        var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction id")
-                                        .WithOrderTotal(209.00m)
-                                        .WithItemsUNiDAYSDiscount(13.00m)
-                                        .WithCode("a code")
-                                        .WithItemsTax(34.50m)
-                                        .WithShippingGross(5.00m)
-                                        .WithShippingDiscount(3.00m)
-                                        .WithItemsGross(230.00m)
-                                        .WithItemsOtherDiscount(10.00m)
-                                        .WithUNiDAYSDiscountPercentage(10.00m)
-                                        .WithNewCustomer(true)
-                                        .Build();
-
-        var response = await new TrackingClient(directTrackingDetails, signingKey).SendAsync();
-
-        if (!response.IsSuccessStatusCode())
+        static async Task Main()
         {
-            // The response body contains a json description of the errors
-            System.Console.WriteLine(await response.Content.ReadAsStringAsync());
+            // UNiDAYS will provide your partnerId and your signing key
+            var partnerId = "somePartnerId";
+            var signingKey = "someSigningKey";
+    
+            var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "the     transaction id")
+                                            .WithOrderTotal(209.00m)
+                                            .WithItemsUNiDAYSDiscount(13.00m)
+                                            .WithCode("a code")
+                                            .WithItemsTax(34.50m)
+                                            .WithShippingGross(5.00m)
+                                            .WithShippingDiscount(3.00m)
+                                            .WithItemsGross(230.00m)
+                                            .WithItemsOtherDiscount(10.00m)
+                                            .WithUNiDAYSDiscountPercentage(10.00m)
+                                            .WithNewCustomer(true)
+                                            .Build();
+    
+            var response = await new TrackingClient(directTrackingDetails, signingKey).SendAsync();
+    
+            if (!response.IsSuccessStatusCode())
+            {
+                // The response body contains a json description of the errors
+                System.Console.WriteLine(await response.Content.ReadAsStringAsync());
+            }
         }
     }
 }
@@ -256,11 +272,11 @@ UNiDAYS provide test endpoints for each of the above types of call which are as 
 - `TrackingScriptTestUrl()`
 - `TrackingScriptTestUrl(string key)`
 
-These methods add an extra parameter to the URL that is returned to you, or sent for you which looks like this `&Test=True`.
+These methods add an extra parameter to the URL that is returned to you, or sent for you which looks like this `&Test=True`. These endpoints are to be used to test your integration.
 
 ### Direct Tracking Details Builder
 
-The purpose of direct tracking builder is for it to be made intuitive for you to provide the values you need to UNiDAYS as possible.
+The purpose of direct tracking builder is for it to be made intuitive for you to provide the values you need to UNiDAYS as possible. It is used with all the integration methods.
 
 The parameters on the builder are the mandatory values
 

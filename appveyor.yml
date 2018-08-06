@@ -1,72 +1,36 @@
-# master
--
-  branches:
-    only:
-      - master
-
-  image: Visual Studio 2017
-      
-  skip_tags: true
-
-  skip_branch_with_pr: true
-
-  version: '1.0.{build}'
-   
-  init:
+image: Visual Studio 2017
+clone_depth: 1
+skip_tags: true
+skip_branch_with_pr: true
+init:
     - cmd: git config --global core.autocrlf true
-
-  clone_depth: 1
+before_build:
+  - cmd: dotnet --version
+  - cmd: dotnet restore ./src/Unidays.Client/Unidays.Client.csproj --verbosity m
+  - cmd: dotnet restore ./src/Unidays.Client.Tests/Unidays.Client.Tests.csproj --verbosity m   
+test_script:    
+  - cmd: cd ./src/Unidays.Client.Tests/
+  - cmd: dotnet test
+on_failure:
+    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
+for:
+  - branches:
+      only:
+        - master
+    version: '1.0.{build}'
+    build_script:
+      - cmd: dotnet build ./src/Unidays.Client/Unidays.Client.csproj -c Release
+      - cmd: dotnet pack ./src/Unidays.Client/Unidays.Client.csproj -c Release /property:PackageVersion=%APPVEYOR_BUILD_VERSION%
+    artifacts:
+      - path: '**\*.nupkg'
+        name: NuGet
+    deploy:
+      provider: NuGet
+      api_key:
+        secure: d3AWampXQ0DRhBkajTuPm9Oz90i3VyHiYWjZ5jK9Z9u/7oZ5zBh50U8RoMlz3rvp
+      artifact: /.*\.symbols\.nupkg/
   
-  before_build:
-    - cmd: dotnet --version
-    - cmd: dotnet restore ./src/Unidays.Client/Unidays.Client.csproj --verbosity m
-    - cmd: dotnet restore ./src/Unidays.Client.Tests/Unidays.Client.Tests.csproj --verbosity m
-
-  test_script:
-    - cmd: cd ./src/Unidays.Client.Tests/
-    - cmd: dotnet test
-
-  build_script:
-    - cmd: dotnet build ./src/Unidays.Client/Unidays.Client.csproj -c Release
-    - cmd: dotnet pack ./src/Unidays.Client/Unidays.Client.csproj -c Release /property:PackageVersion=%APPVEYOR_BUILD_VERSION%
-
-  artifacts:
-    - path: '**\*.nupkg'
-      name: NuGet
-
-  deploy:
-    provider: NuGet
-    api_key:
-      secure: d3AWampXQ0DRhBkajTuPm9Oz90i3VyHiYWjZ5jK9Z9u/7oZ5zBh50U8RoMlz3rvp
-
-  on_failure:
-    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
-
-# all except master
--
-  branches:
-    except:
-      - master
-
-  image: Visual Studio 2017
-
-  skip_tags: true
-
-  skip_branch_with_pr: true
-
-  version: 1.0.{build}-{branch}
-   
-  init:
-    - cmd: git config --global core.autocrlf true
-
-  before_build:
-    - cmd: dotnet --version
-    - cmd: dotnet restore ./src/Unidays.Client/Unidays.Client.csproj --verbosity m
-    - cmd: dotnet restore ./src/Unidays.Client.Tests/Unidays.Client.Tests.csproj --verbosity m
-
-  test_script:
-    - cmd: cd ./src/Unidays.Client.Tests/
-    - cmd: dotnet test
-   
-  on_failure:
-    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)-fail-$(Get-Date -format dd_mm_yyyy_HH_mm_ss)"
+  - branches:
+      except:
+        - master
+    version: 1.0.{build}-{branch}
