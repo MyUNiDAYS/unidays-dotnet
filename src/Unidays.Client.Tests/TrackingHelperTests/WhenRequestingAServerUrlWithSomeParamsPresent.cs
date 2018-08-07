@@ -42,7 +42,17 @@ namespace Unidays.Client.Tests.TrackingHelperTests
             [InlineData("PartnerId", "a partner")]
             [InlineData("TransactionId", "the transaction")]
             [InlineData("Currency", "GBP")]
-            [InlineData("Signature", "3h2gRkUHrvzvdHysCaIZwaSWiNCU4Bx4n3wYjlOsf1WpHqK5gqQSZa1B7JQVsPkriXD0jcf06wtGF//sCfmKnA==")]
+            [InlineData("OrderTotal", "")]
+            [InlineData("ItemsUNiDAYSDiscount", "")]
+            [InlineData("Code", "")]
+            [InlineData("ItemsTax", "")]
+            [InlineData("ShippingGross", "")]
+            [InlineData("ShippingDiscount", "")]
+            [InlineData("ItemsGross", "")]
+            [InlineData("ItemsOtherDiscount", "")]
+            [InlineData("UNiDAYSDiscountPercentage", "")]
+            [InlineData("NewCustomer", "")]
+            [InlineData("Signature", "CmHoChVU1M8h+clza7oCRKATUDWUMZiwOOBHZf93qT3yx1vrP40D9/LPdL7HjaX3nnfQ5dlXDghdmxLTQk7W9A==")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

@@ -16,39 +16,50 @@ namespace Unidays.Client.Internal
                 .Append(HttpUtility.UrlEncode(directTrackingDetails.TransactionId))
                 .Append("&Currency=")
                 .Append(HttpUtility.UrlEncode(directTrackingDetails.Currency));
-
+            
+            builder.Append("&MemberId=");
             if (!string.IsNullOrEmpty(directTrackingDetails.MemberId))
-                builder.Append("&MemberId=").AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.MemberId));
-
+               builder.AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.MemberId));
+            
+            builder.Append("&Code=");
             if (!string.IsNullOrEmpty(directTrackingDetails.Code))
-                builder.Append("&Code=").Append(HttpUtility.UrlEncode(directTrackingDetails.Code));
-
+                builder.AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.Code));
+           
+            builder.Append("&OrderTotal=");
             if (directTrackingDetails.OrderTotal.HasValue)
-                builder.Append("&OrderTotal=").AppendFormat("{0:0.00}", directTrackingDetails.OrderTotal.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.OrderTotal.Value);
 
+            builder.Append("&ItemsUNiDAYSDiscount=");
             if (directTrackingDetails.ItemsUNiDAYSDiscount.HasValue)
-                builder.Append("&ItemsUNiDAYSDiscount=").AppendFormat("{0:0.00}", directTrackingDetails.ItemsUNiDAYSDiscount.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ItemsUNiDAYSDiscount.Value);
 
+            builder.Append("&ItemsTax=");
             if (directTrackingDetails.ItemsTax.HasValue)
-                builder.Append("&ItemsTax=").AppendFormat("{0:0.00}", directTrackingDetails.ItemsTax.Value);
-
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ItemsTax.Value);
+           
+            builder.Append("&ShippingGross=");
             if (directTrackingDetails.ShippingGross.HasValue)
-                builder.Append("&ShippingGross=").AppendFormat("{0:0.00}", directTrackingDetails.ShippingGross.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ShippingGross.Value);
 
+            builder.Append("&ShippingDiscount=");
             if (directTrackingDetails.ShippingDiscount.HasValue)
-                builder.Append("&ShippingDiscount=").AppendFormat("{0:0.00}", directTrackingDetails.ShippingDiscount.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ShippingDiscount.Value);
 
+            builder.Append("&ItemsGross=");
             if (directTrackingDetails.ItemsGross.HasValue)
-                builder.Append("&ItemsGross=").AppendFormat("{0:0.00}", directTrackingDetails.ItemsGross.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ItemsGross.Value);
 
+            builder.Append("&ItemsOtherDiscount=");
             if (directTrackingDetails.ItemsOtherDiscount.HasValue)
-                builder.Append("&ItemsOtherDiscount=").AppendFormat("{0:0.00}", directTrackingDetails.ItemsOtherDiscount.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.ItemsOtherDiscount.Value);
 
+            builder.Append("&UNiDAYSDiscountPercentage=");
             if (directTrackingDetails.UNiDAYSDiscountPercentage.HasValue)
-                builder.Append("&UNiDAYSDiscountPercentage=").AppendFormat("{0:0.00}", directTrackingDetails.UNiDAYSDiscountPercentage.Value);
+                builder.AppendFormat("{0:0.00}", directTrackingDetails.UNiDAYSDiscountPercentage.Value);
 
+            builder.Append("&NewCustomer=");
             if (directTrackingDetails.NewCustomer.HasValue)
-                builder.Append("&NewCustomer=").AppendFormat("{0}", directTrackingDetails.NewCustomer);
+                builder.AppendFormat("{0}", directTrackingDetails.NewCustomer);
 
             return builder;
         }
