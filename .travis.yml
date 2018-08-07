@@ -10,6 +10,7 @@ script:
 - dotnet test Unidays.Client.Tests
 - dotnet pack Unidays.Client -c Release /property:PackageVersion=1.1.$TRAVIS_BUILD_NUMBER
 deploy:
+  skip_cleanup: true
   provider: script
   script: nuget push src/Unidays.Client/bin/Release/Unidays.Client.1.1.$TRAVIS_BUILD_NUMBER.nupkg -ApiKey $NUGET_API_KEY
   on:
