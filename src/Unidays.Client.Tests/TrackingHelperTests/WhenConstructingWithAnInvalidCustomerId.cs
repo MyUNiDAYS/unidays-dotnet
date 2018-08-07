@@ -16,7 +16,7 @@ namespace Unidays.Client.Tests.TrackingHelperTests
                 Action ctor = () => new TrackingHelper(new DirectTrackingDetailsBuilder(partnerId, "GBP", "the transaction id").Build());
 
                 ctor.Should().Throw<ArgumentException>()
-                    .Which.Message.Should().Be("PartnerId is required\r\nParameter name: partnerId");
+                    .Which.Message.Should().Be($"PartnerId is required{Environment.NewLine}Parameter name: partnerId");
             }
         }
     }

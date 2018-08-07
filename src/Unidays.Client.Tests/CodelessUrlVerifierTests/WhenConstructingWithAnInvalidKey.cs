@@ -17,7 +17,7 @@ namespace Unidays.Client.Tests.CodelessUrlVerifierTests
                 Action ctor = () => new Unidays.Client.CodelessUrlVerifier(key);
 
                 ctor.Should().Throw<ArgumentException>()
-                    .Which.Message.Should().Be($"{expectedMessage}\r\nParameter name: key");
+                    .Which.Message.Should().Be($"{expectedMessage}{Environment.NewLine}Parameter name: key");
             }
         }
     }
