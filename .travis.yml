@@ -12,6 +12,6 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: nuget push src/Unidays.Client/bin/Release/Unidays.Client.1.1.$TRAVIS_BUILD_NUMBER.nupkg -ApiKey $NUGET_API_KEY
+  script: ./deploy.sh 1.1.$TRAVIS_BUILD_NUMBER $NUGET_API_KEY
   on:
     branch: master
