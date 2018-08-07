@@ -1,7 +1,16 @@
 language: csharp
 mono: none
 dotnet: 2.1
+env:
+  global:
+    secure: F578bJrQ5B4rf1fhKxIJ9oO9caunOvH9FzS/KmPKFXq1PMMFqzRVGFbfVQ1ZO++oP8j8+HBB+rzWaub65qqYiO4yzb3Bsk0t1u2IgWGNPk1g4+tAr5MvXzFRVSJYn1rRL+sM5SLubAxHEuhzQIk3reQC+C26KbQ03SZlhCm9uSetR07geeqVKwdWRYER/pwskmm5XAYn/XAbR17jxoOWrIWyQrtQ7MlsB/uA9Gcf03U/5XK1oQb47uW3lDSxF9n7Ewd0mNL0s3pcxZhQZB4tU2URebho+1SNonR1aODhuNmQAfkxc8g1K7tHqm3uHBOhRLPgZGoAFBmWlaM6lGOcNhBTkxYo4VfP4wkO/6ziLpwTQAOrNaQNkVejwIjgEdGr+6WDGn4bjE8mose/BQyxNTXg8jXFWaAAU74CJAG2Mjst80FKf/dWmycRecDr2iO/nixTBQa4mhyhzPUiZvtPYZyf5kk62MIKQgScJM6/Sfzkwto00xBWP8NU0EWDaMfD1kutPWoAHSivTeOHMgdYcePjF1TmEqt9bwHUHHup4hImU/Mmqlx7wX0B5n+LccnaU2Efd9+ivOzvSrgHZAmEdty0bkf33WDjcEns7NqEXLO+LSBfzzNBxZQQiNYQJ7pwuSmxRirifxGzQomn+eBZF1aCN4SNTVVQDSbPMxoRxKM=
 script:
-  - cd src
-  - dotnet restore
-  - dotnet test Unidays.Client.Tests
+- cd src
+- dotnet restore
+- dotnet test Unidays.Client.Tests
+- dotnet pack Unidays.Client -c Release /property:PackageVersion=1.1.$TRAVIS_BUILD_NUMBER
+deploy:
+  provider: script
+  script: nuget push src/Unidays.Client/bin/Release/Unidays.Client.1.1.$TRAVIS_BUILD_NUMBER.nupkg -ApiKey $NUGET_API_KEY
+  on:
+    branch: master
