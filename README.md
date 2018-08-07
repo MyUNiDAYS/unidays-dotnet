@@ -4,6 +4,7 @@
 <br/>
 
 [![Build status](https://ci.appveyor.com/api/projects/status/xjfdbra2ea85qd27?svg=true)](https://ci.appveyor.com/project/UNiDAYS/unidays-dotnet)
+[![Build Status](https://travis-ci.org/MyUNiDAYS/unidays-dotnet.svg?branch=master)](https://travis-ci.org/MyUNiDAYS/unidays-dotnet)
 
 # UNiDAYS .NET Library
 
