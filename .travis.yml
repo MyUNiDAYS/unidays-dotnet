@@ -15,4 +15,4 @@ deploy:
   provider: script
   script: bash deploy.sh 1.1.$TRAVIS_BUILD_NUMBER $NUGET_API_KEY
   on:
-    branch: travis
+    branch: master
