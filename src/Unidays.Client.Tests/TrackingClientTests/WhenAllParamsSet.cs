@@ -35,7 +35,7 @@ namespace Unidays.Client.Tests.TrackingClientTests
             }
 
             [Fact]
-            public void TheSchemeShouldBeHttps()
+            public void TheStatusCodeShouldBeOk()
             {
                 _response.StatusCode.Should().Be(HttpStatusCode.OK);
             }
