@@ -95,7 +95,7 @@ Below are the three options for implementing your integration. These examples co
 - [Get Server URL _(returns url for server to server request)_](#get-server-url)
 - [Get Script URL _(returns url for client to server request)_](#get-script-url)
 - [Tracking Client _(sends server to server request)_](#tracking-client)
-- [Test endpoints](#test-endpoints)
+- [Test endpoint](#test-endpoint)
 
 ### Get Server URL
 
