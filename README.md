@@ -366,6 +366,6 @@ class Program
 
 ## Contributing
 
-This project is set up as an open source project. As such, if there any any suggestions you have for features, for improving the code itself, or come across any problems; you can raise them and/or suggest changes in implementation.
+This project is set up as an open source project. As such, if there are any suggestions that you have for features, for improving the code itself, or you have come across any problems; you can raise them and/or suggest changes in implementation.
 
 If you are interested in contributing to this codebase, please follow the [contributing guidelines](.github/contributing.md). This contains guides on both contributing directly and raising feature requests or bug reports. Please adhere to our [code of conduct](./CODE_OF_CONDUCT.md) when doing any of the above.
