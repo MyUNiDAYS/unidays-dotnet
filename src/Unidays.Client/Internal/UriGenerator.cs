@@ -5,7 +5,7 @@ namespace Unidays.Client.Internal
 {
     internal class UriGenerator
     {
-        private const string TrackingUrl = "https://tracking.myunidays.com/v1.2/redemption";
+        private const string TrackingUrl = "https://api.myunidays.com/tracking/v1.2/redemption";
         private const string TrackingScriptUrl = TrackingUrl + "/js";
         private readonly bool generateTestUris;
 
