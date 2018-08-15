@@ -36,15 +36,15 @@ namespace Unidays.Client.Tests.TrackingHelperTests
             }
 
             [Fact]
-            public void TheHostShouldBeTrackingMyunidaysCom()
+            public void TheHostShouldBeApiMyunidaysCom()
             {
-                this.url.Host.Should().Be("tracking.myunidays.com");
+                this.url.Host.Should().Be("api.myunidays.com");
             }
 
             [Fact]
             public void ThePathShouldBeV1_2RedemptionJs()
             {
-                this.url.PathAndQuery.Should().StartWith("/v1.2/redemption/js");
+                this.url.PathAndQuery.Should().StartWith("/tracking/v1.2/redemption/js");
             }
 
             [Theory]

@@ -97,6 +97,10 @@ Below are the three options for implementing your integration. These examples co
 - [Tracking Client _(sends server to server request)_](#tracking-client)
 - [Test endpoint](#test-endpoint)
 
+### Requirements
+
+When using a server-to-server request (using Get Server URL or Tracking Client) your framework/implementation must support TLS >= 1.2 with SNI.
+
 ### Get Server URL
 
 This method returns a URL which you can use to call our API.
