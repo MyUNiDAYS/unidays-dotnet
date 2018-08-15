@@ -52,7 +52,7 @@ namespace Unidays.Client.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "")]
             [InlineData("UNiDAYSDiscountPercentage", "")]
             [InlineData("NewCustomer", "")]
-            [InlineData("Signature", "CmHoChVU1M8h+clza7oCRKATUDWUMZiwOOBHZf93qT3yx1vrP40D9/LPdL7HjaX3nnfQ5dlXDghdmxLTQk7W9A==")]
+            [InlineData("Signature", "capIvWHcE83R/0qZlkPznmhXAbUPP0RnbKXe/6EvbMX9TPEOYDWPf6+gjVAsQR+d7lY3tv9y+qAnO7lEgPDoFg==")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);

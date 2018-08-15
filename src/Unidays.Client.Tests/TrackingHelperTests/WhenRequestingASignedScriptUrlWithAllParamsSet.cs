@@ -13,7 +13,7 @@ namespace Unidays.Client.Tests.TrackingHelperTests
 
             public WhenRequestingASignedScriptUrlWithAllParamsSet()
             {
-                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction")
+                var directTrackingDetails = new DirectTrackingDetailsBuilder("a partner Id", "GBP", "the transaction id")
                                             .WithOrderTotal(209.00m)
                                             .WithItemsUNiDAYSDiscount(13.00m)
                                             .WithCode("a code")
@@ -49,7 +49,7 @@ namespace Unidays.Client.Tests.TrackingHelperTests
 
             [Theory]
             [InlineData("PartnerId", "a partner Id")]
-            [InlineData("TransactionId", "the transaction")]
+            [InlineData("TransactionId", "the transaction id")]
             [InlineData("Currency", "GBP")]
             [InlineData("OrderTotal", "209.00")]
             [InlineData("ItemsUNiDAYSDiscount", "13.00")]
@@ -61,7 +61,7 @@ namespace Unidays.Client.Tests.TrackingHelperTests
             [InlineData("ItemsOtherDiscount", "10.00")]
             [InlineData("UNiDAYSDiscountPercentage", "10.00")]
             [InlineData("NewCustomer", "True")]
-            [InlineData("Signature", "9KETSe8bP8KKTQ13bGNsuc8b3RzwmTUrLhq/PynXLDCtxeICXfP7LSKosuowD+6DSTdPdd1IoWx5Gc0MdwPx0A==")]
+            [InlineData("Signature", "c6sNwe3kcvr3/NYH+661/37BSP1RFIgrJ2LJ5e3ETOTD0kPBb6gzqvR8uEhFEJaksfBxy9Ct/rrn9/8fH0tuQQ==")]
             public void TheParameterShouldBeCorrect(string parameter, string result)
             {
                 var parameters = HttpUtility.ParseQueryString(this.url.Query);
