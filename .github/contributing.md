@@ -27,11 +27,11 @@ This document outlines the different ways you can contribute to the UNiDAYS repo
 
 ## How Can I Contribute?
 
-### Reporting Bugs :bug:
+### Reporting Bugs
 
 When issuing a bug report please include as many of details on [the bug report template](./ISSUE_TEMPLATE/bug_report.md) as possible. If you find a Closed issue that seems like it is the same thing that you're experiencing, open a new issue and include a link to the original issue in the body of your new one. Please label the any bug report issues with `bug`.
 
-### Suggesting Enhancements 🔎
+### Suggesting Enhancements
 
 Enhancements may include completely new features and minor improvements to existing functionality. Following these guidelines helps maintainers and the community understand your suggestion and find related suggestions.
 
@@ -40,7 +40,7 @@ First of all please do a search on the issues already present to see if it's an 
 ### Labels For Issues
 
 | Label       | Purpose             |
-| ------------- |:----------------:| -----:|
+| ------------- |:----------------:|
 | up-for-grabs     | An issue that is ready and has enough information to be picked up  |
 | docs     | An issue that only relates to writing docs |
 | easy     | Difficulty level: any level of experience can pick this issue up |
@@ -50,7 +50,7 @@ First of all please do a search on the issues already present to see if it's an 
 | enhancement      | Making things better but without fixing an issue     |   
 | fix  | Fixing a pre-existing problem with the code      |
 
-### Pull Requests :thought_balloon:
+### Pull Requests
 
 - Create branch. If there is an issue, have the branch name related to the linked issue, otherwise give it a descriptive name relating to what the work covers. See some examples below.
 
@@ -68,7 +68,7 @@ First of all please do a search on the issues already present to see if it's an 
 
 - Make a comment with the pull request in any issues it relates to.
 
-### Your First Code Contribution? :computer:
+### Your First Code Contribution?
 
 We will make efforts to label issues with `beginner` if we think they should only require a few lines of code, and a test or two. This is in order to help those who want to contribute but don't necessarily have much experience in doing so.
 
