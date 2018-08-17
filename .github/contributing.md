@@ -20,10 +20,10 @@ This document outlines the different ways you can contribute to the UNiDAYS repo
   * [Pull Requests](#pull-requests)
   * [Your First Code Contribution](#your-first-code-contribution)
 
-[Styleguides](#styleguides)
+[Style Guides](#style-guides)
   * [Git Commit Messages](#git-commit-messages)
-  * [Testing Styleguide](#testing-styleguide)
-  * [Documentation Styleguide](#documentation-styleguide)
+  * [xUnit Testing Style Guide](#xunit-testing-style-guide)
+  * [Documentation Style Guide](#documentation-style-guide)
 
 ## How Can I Contribute?
 
@@ -60,9 +60,9 @@ First of all please do a search on the issues already present to see if it's an 
 | enhancement      | Making things _better_ but without fixing an issue     |   enhancement_improveperformanceofquery |
 | fix  | Fixing a pre-existing problem with the code that isn't an issue      | fix_acceptnullsforinput |
 
-- Open a Pull Request with the details listed in the [pull request template](pull_request_template.md). The sections of this template should show in the body of any new pull request automatically.
+- Open a Pull Request with the details listed in the [pull request template](../pull_request_template.md). The sections of this template should show in the body of any new pull request automatically.
 
-- Please ensure that any changes you make comply with our [styleguides](#styleguides).
+- Please ensure that any changes you make comply with our [style guides](#style-guides).
 
 -	Include screenshots and animated GIFs in your pull request whenever possible.
 
@@ -72,7 +72,7 @@ First of all please do a search on the issues already present to see if it's an 
 
 We will make efforts to label issues with `beginner` if we think they should only require a few lines of code, and a test or two. This is in order to help those who want to contribute but don't necessarily have much experience in doing so.
 
-## Styleguides
+## Style Guides
 
 ### Git Commit Messages
 
@@ -85,11 +85,11 @@ We request that, where possible, you stick to the following format for your comm
 
 For reference, [this blog](https://chris.beams.io/posts/git-commit/) encourages a similar style.
 
-## Testing Styleguide
+## xUnit Testing Style Guide
 
 In this project our tests are written using [xUnit](https://xunit.github.io/docs/getting-started-dotnet-core) and [Fluent Assertions](https://fluentassertions.com/). We would appreciate if you test cover your code using the same tooling and try to keep to a similar style that's in the project. This is to help it remain consistent and easier to maintain.
 
-## Documentation Styleguide
+## Documentation Style Guide
 
 For anything changing the user experience or externally visible implementation, please update the README.md as part of your pull request.
 
