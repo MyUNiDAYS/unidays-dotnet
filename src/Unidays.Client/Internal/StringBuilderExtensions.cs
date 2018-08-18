@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+using System.Net;
 
 namespace Unidays.Client.Internal
 {
@@ -11,20 +11,17 @@ namespace Unidays.Client.Internal
         {
             builder
                 .Append("?PartnerId=")
-                .Append(HttpUtility.UrlEncode(directTrackingDetails.PartnerId))
+                .Append(WebUtility.UrlEncode(directTrackingDetails.PartnerId))
                 .Append("&TransactionId=")
-                .Append(HttpUtility.UrlEncode(directTrackingDetails.TransactionId))
-                .Append("&Currency=")
-                .Append(HttpUtility.UrlEncode(directTrackingDetails.Currency));
+                .Append(WebUtility.UrlEncode(directTrackingDetails.TransactionId));
             
             builder.Append("&MemberId=");
             if (!string.IsNullOrEmpty(directTrackingDetails.MemberId))
-               builder.AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.MemberId));
-            
-            builder.Append("&Code=");
-            if (!string.IsNullOrEmpty(directTrackingDetails.Code))
-                builder.AppendFormat(HttpUtility.UrlEncode(directTrackingDetails.Code));
-           
+               builder.Append(WebUtility.UrlEncode(directTrackingDetails.MemberId));
+
+            builder.Append("&Currency=")
+                .Append(WebUtility.UrlEncode(directTrackingDetails.Currency));
+
             builder.Append("&OrderTotal=");
             if (directTrackingDetails.OrderTotal.HasValue)
                 builder.AppendFormat("{0:0.00}", directTrackingDetails.OrderTotal.Value);
@@ -32,6 +29,10 @@ namespace Unidays.Client.Internal
             builder.Append("&ItemsUNiDAYSDiscount=");
             if (directTrackingDetails.ItemsUNiDAYSDiscount.HasValue)
                 builder.AppendFormat("{0:0.00}", directTrackingDetails.ItemsUNiDAYSDiscount.Value);
+
+            builder.Append("&Code=");
+            if (!string.IsNullOrEmpty(directTrackingDetails.Code))
+                builder.Append(WebUtility.UrlEncode(directTrackingDetails.Code));
 
             builder.Append("&ItemsTax=");
             if (directTrackingDetails.ItemsTax.HasValue)
@@ -73,7 +74,7 @@ namespace Unidays.Client.Internal
                 hmac.Initialize();
                 var buffer = Encoding.ASCII.GetBytes(builder.ToString());
                 var signatureBytes = hmac.ComputeHash(buffer);
-                builder.Append($"&Signature={HttpUtility.UrlEncode(Convert.ToBase64String(signatureBytes))}");
+                builder.Append($"&Signature={WebUtility.UrlEncode(Convert.ToBase64String(signatureBytes))}");
                 return builder;
             }
         }

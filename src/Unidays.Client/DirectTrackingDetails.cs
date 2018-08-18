@@ -17,6 +17,5 @@ namespace Unidays.Client
         public decimal? ItemsOtherDiscount { get; set; }
         public decimal? UNiDAYSDiscountPercentage { get; set; }
         public bool? NewCustomer { get; set; }
-        public string Signature { get; set; }
     }
 }
