@@ -52,7 +52,7 @@ Having **either** Code or MemberID as a parameter is also mandatory:
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
-| Code | The UNiDAYS discount code used | Base64 Encoded Guid | ABC123 |
+| Code | The UNiDAYS discount code used |  String | ABC123 |
 | MemberId | Only to be provided if you are using a codeless integration | Base64 Encoded Guid | 0LTio6iVNaKj861RM9azJQ== |
 
 ### Additional Parameters
