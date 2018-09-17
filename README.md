@@ -44,7 +44,7 @@ Here is a description of all available parameters. Which of these you provide ar
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
-| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | String | XaxptFh0sK8Co6pI== |
+| PartnerId | Your PartnerId as provided by UNiDAYS. If you operate in multiple geographic regions you MAY have a different PartnerId for each region | Base64 Encoded Guid | XaxptFh0sK8Co6pI== |
 | TransactionId | A unique ID for the transaction in your system | String | Order123 |
 | Currency | The ISO 4217 currency code | String | GBP |
 
@@ -52,8 +52,8 @@ Having **either** Code or MemberID as a parameter is also mandatory:
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
-| Code | The UNiDAYS discount code used | String | ABC123 |
-| MemberId | Only to be provided if you are using a codeless integration | String | 0LTio6iVNaKj861RM9azJQ== |
+| Code | The UNiDAYS discount code used |  String | ABC123 |
+| MemberId | Only to be provided if you are using a codeless integration | Base64 Encoded Guid | 0LTio6iVNaKj861RM9azJQ== |
 
 ### Additional Parameters
 
@@ -105,7 +105,7 @@ When using a server-to-server request (using Get Server URL or Tracking Client) 
 
 This method returns a URL which you can use to call our API.
 
-It is a mandatory requirement that all server URLs are signed. This means you are required to pass the signing key UNiDAYS provide you with as one of the arguments. The signing key is a Base64 string.
+It is a mandatory requirement that all server URLs are signed. This means you are required to pass the signing key UNiDAYS provide you with as one of the arguments. The signing key is a Base64 encoded GUID. This endpoint accepts both `GET` and `POST` requests.
 
 #### Making the call
 
@@ -115,7 +115,7 @@ Once the object containing the details you need to send us is created, create a 
 
 #### Return
 
-A URL will be returned to you, which can then be used to call the API.
+A URL will be returned, which can then be used to call the API. If successful a response with a status code of 204 No Content will be returned. This will work for both `POST` and `GET` requests.
 
 #### Example
 
@@ -128,8 +128,8 @@ namespace test
     {
         static void Main()
         {
-        // UNiDAYS will provide your partnerId and signingKey
-            var partnerId = "somePartnerId";
+            // UNiDAYS will provide your partnerId and signingKey. The partnerId GUID needs to be Base64 encoded before passing it to the DirectTrackingDetailsBuilder
+            var partnerId = "somePartnerKey";
             var signingKey = "someSigningKey";
 
             var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "Order123")
@@ -173,7 +173,7 @@ Once the object containing the details you need to send us is created, create a 
 
 #### Return
 
-A URL will be returned to you which can be placed within a script element on your post-payment/order-success page to call the API.
+A URL will be returned to you which can be placed within a script element on your post-payment/order-success page to call the API. If successful a response with a status code of 200 OK will be returned. This will only work for `GET` requests.
 
 #### Example
 
@@ -188,7 +188,7 @@ namespace test
     {
         static void Main()
         {
-            // UNiDAYS will provide your partnerId
+            // UNiDAYS will provide your partnerId. The partnerId GUID needs to be Base64 encoded before passing it to the DirectTrackingDetailsBuilder
             var partnerId = "somePartnerId";
 
             var directTrackingDetails = new DirectTrackingDetailsBuilder(partnerId, "GBP", "Order123")
@@ -224,7 +224,7 @@ Once the object containing the details you need to send us is created, create an
 
 #### Return
 
-A HttpResponseMessage is returned
+A HttpResponseMessage is returned. If successful the response should have a status code of 204 No Content.
 
 #### Example
 
@@ -239,7 +239,7 @@ namespace test
     {
         static async Task Main()
         {
-            // UNiDAYS will provide your partnerId and your signing key
+            // UNiDAYS will provide your partnerId and signingKey. The partnerId GUID needs to be Base64 encoded before passing it to the DirectTrackingDetailsBuilder
             var partnerId = "somePartnerId";
             var signingKey = "someSigningKey";
 
@@ -288,7 +288,7 @@ The arguments on the builder are the [mandatory parameters](#mandatory-parameter
 
 There are then a variety of methods available to build up the information you want to send us which can be chained up, per the example. These match up to the [parameters](#parameters) at the top of this document.
 
-- WithMemberId(`string`)
+- WithMemberId(`base64 encoded guid`)
 - WithCode(`string`)
 - WithOrderTotal(`decimal`)
 - WithItemsUNiDAYSDiscount(`decimal`)
