@@ -4,6 +4,8 @@
 <br/>
 
 [![Build Status](https://travis-ci.org/MyUNiDAYS/unidays-dotnet.svg?branch=master)](https://travis-ci.org/MyUNiDAYS/unidays-dotnet)
+[![NuGet](https://img.shields.io/nuget/v/Unidays.Client.svg)](https://www.nuget.org/packages/Unidays.Client/)
+[![NuGet](https://img.shields.io/nuget/dt/Unidays.Client.svg)](https://www.nuget.org/packages/Unidays.Client/)
 
 # UNiDAYS .NET Library
 
