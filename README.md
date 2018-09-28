@@ -1,9 +1,12 @@
 <p align="center">
-  <img src="./assets/UNiDAYS_Logo.png" />
+  <img src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg" width="60%"/>
 </p>
 <br/>
 
+
 [![Build Status](https://travis-ci.org/MyUNiDAYS/unidays-dotnet.svg?branch=master)](https://travis-ci.org/MyUNiDAYS/unidays-dotnet)
+[![NuGet](https://img.shields.io/nuget/v/Unidays.Client.svg)](https://www.nuget.org/packages/Unidays.Client/)
+[![NuGet](https://img.shields.io/nuget/dt/Unidays.Client.svg)](https://www.nuget.org/packages/Unidays.Client/)
 
 # UNiDAYS .NET Library
 
