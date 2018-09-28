@@ -25,6 +25,8 @@ namespace Unidays.Client
         public async Task<HttpResponseMessage> SendAsync(bool sendTestParameter = false)
         {
             var uri = new UriGenerator(sendTestParameter).GenerateServerUrl(_key, _directTrackingDetails);
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "unidays-dotnet-client-library/1.2");
+
             var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, uri));
 
             return response;
