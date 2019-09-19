@@ -11,6 +11,7 @@ namespace Unidays.Client
     public sealed class CodelessUrlVerifier
     {
         private readonly byte[] _key;
+        private static readonly DateTime Epoch = new DateTime(1970, 01, 01, 00, 00, 00, DateTimeKind.Utc);
 
         public CodelessUrlVerifier(string key)
         {
@@ -62,7 +63,7 @@ namespace Unidays.Client
                 if (ud_h != hash) return null;
 
                 var timeSinceEpoch = Convert.ToInt64(ud_t);
-                return new DateTime(timeSinceEpoch, DateTimeKind.Utc);
+                return Epoch.AddSeconds(timeSinceEpoch);
             }
             catch (Exception ex)
             {
