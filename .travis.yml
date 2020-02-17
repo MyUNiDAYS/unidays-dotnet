@@ -8,12 +8,12 @@ script:
 - cd src
 - dotnet restore
 - dotnet test Unidays.Client.Tests
-- dotnet pack Unidays.Client -c Release /property:PackageVersion=1.1.$TRAVIS_BUILD_NUMBER
+- dotnet pack Unidays.Client -c Release /property:PackageVersion=1.2.$TRAVIS_BUILD_NUMBER
 - cd -
 deploy:
   skip_cleanup: true
   provider: script
-  script: bash deploy.sh 1.1.$TRAVIS_BUILD_NUMBER $NUGET_API_KEY
+  script: bash deploy.sh 1.2.$TRAVIS_BUILD_NUMBER $NUGET_API_KEY
   on:
     branch: master
 notifications:

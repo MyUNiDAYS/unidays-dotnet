@@ -11,6 +11,7 @@ namespace Unidays.Client
     public sealed class CodelessUrlVerifier
     {
         private readonly byte[] _key;
+        private static readonly DateTime Epoch = new DateTime(1970, 01, 01, 00, 00, 00, DateTimeKind.Utc);
 
         public CodelessUrlVerifier(string key)
         {
@@ -27,14 +28,14 @@ namespace Unidays.Client
             }
         }
 
-        private string StringToHmacSHA512(StringBuilder queryString)
+        private string StringToHmacSHA512(string queryString)
         {
             using (var hmac = new HMACSHA512())
             {
                 hmac.Key = _key;
 
                 hmac.Initialize();
-                var buffer = Encoding.ASCII.GetBytes(queryString.ToString());
+                var buffer = Encoding.ASCII.GetBytes(queryString);
                 var signatureBytes = hmac.ComputeHash(buffer);
                 var signature = Convert.ToBase64String(signatureBytes);
                 return signature;
@@ -51,9 +52,7 @@ namespace Unidays.Client
         /// <exception cref="SystemException">Throws exception if the url is not able to be verified</exception>
         public DateTime? VerifyUrlParams(string ud_s, string ud_t, string ud_h)
         {
-            var queryString = new StringBuilder();
-            queryString.Append("?ud_s=").AppendFormat(HttpUtility.UrlEncode(ud_s) ?? "")
-                        .Append("&ud_t=").AppendFormat(HttpUtility.UrlEncode(ud_t) ?? "");
+            var queryString = $"?ud_s={HttpUtility.UrlEncode(ud_s)}&ud_t={HttpUtility.UrlEncode(ud_t)}";
 
             try
             {
@@ -62,7 +61,7 @@ namespace Unidays.Client
                 if (ud_h != hash) return null;
 
                 var timeSinceEpoch = Convert.ToInt64(ud_t);
-                return new DateTime(timeSinceEpoch, DateTimeKind.Utc);
+                return Epoch.AddSeconds(timeSinceEpoch);
             }
             catch (Exception ex)
             {
